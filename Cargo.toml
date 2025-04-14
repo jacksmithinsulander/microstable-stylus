@@ -9,13 +9,12 @@ keywords = ["arbitrum", "ethereum", "stylus", "alloy"]
 description = "Stylus hello world example"
 
 [dependencies]
-alloy-primitives = "=0.3.1"
-alloy-sol-types = "0.3.1"
+alloy-primitives = "=0.8.20"
+alloy-sol-types = "=0.8.20"
 mini-alloc = "0.8.4"
-stylus-sdk = { version = "0.4.2", default-features = false}
+stylus-sdk = { version = "0.8.4", default-features = false}
 hex = "0.4.3"
 dotenv = "0.15.0"
-rustmate = "0.1.0"
 
 [dev-dependencies]
 tokio = { version = "1.12.0", features = ["full"] }

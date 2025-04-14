@@ -1,13 +1,13 @@
 // Only run this as a WASM if the export-abi feature is not set.
 #![cfg_attr(not(feature = "export-abi"), no_main)]
 extern crate alloc;
+pub mod token;
 
 use alloc::vec::Vec;
 use alloy_primitives::B256;
-use rustmate::tokens::erc20::{ERC20Params, ERC20};
-use rustmate::tokens::erc20;
-use stylus_sdk::{alloy_primitives::U256, msg, prelude::*};
-
+use token::erc20;
+use stylus_sdk::{alloy_primitives::U256, prelude::*, msg};
+use alloy_sol_types::sol;
 
 pub struct MicroParams;
 
@@ -32,17 +32,34 @@ sol_storage! {
     // }
 }
 
-#[external]
+sol! {
+    error OnlyManagerCanCall();
+}
+
+#[derive(SolidityError)]
+pub enum ShUSDErrors {
+    OnlyManagerCanCall(OnlyManagerCanCall),
+}
+
+#[public]
 #[inherit(erc20::ERC20<MicroParams>)]
 impl ShUSD {
-    pub fn mint(&mut self, amount: U256) -> Result<(), Vec<u8>> {
-        self.erc20.mint(msg::sender(), amount);
-        Ok(())
+    pub fn mint(&mut self, amount: U256) -> Result<(), ShUSDErrors> {
+        if msg::sender() == self.manager.get() {
+            self.erc20.mint(msg::sender(), amount);
+            Ok(())
+        } else {
+            Err(ShUSDErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))
+        }
     }
 
-    pub fn burn(&mut self, amount: U256) -> Result<(), Vec<u8>> {
-        self.erc20.burn(msg::sender(), amount);
-        Ok(())
+    pub fn burn(&mut self, amount: U256) -> Result<(), ShUSDErrors> {
+        if msg::sender() == self.manager.get() {
+            self.erc20.burn(msg::sender(), amount);
+            Ok(())
+        } else {
+            Err(ShUSDErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))
+        }
     }
 }
 
