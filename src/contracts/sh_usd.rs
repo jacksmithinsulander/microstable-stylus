@@ -1,11 +1,10 @@
 // Only run this as a WASM if the export-abi feature is not set.
 #![cfg_attr(not(feature = "export-abi"), no_main)]
 extern crate alloc;
-pub mod token;
 
 use alloc::vec::Vec;
 use alloy_primitives::{B256, Address};
-use token::erc20;
+use crate::token::erc20;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256};
 use alloy_sol_types::sol;
@@ -21,7 +20,7 @@ impl erc20::ERC20Params for MicroParams {
 }
 
 sol_storage! {
-    #[entrypoint]
+    //#[entrypoint]
     pub struct ShUSD {
         #[borrow]
         erc20::ERC20<MicroParams> erc20;
@@ -41,18 +40,18 @@ pub enum ShUSDErrors {
 #[public]
 #[inherit(erc20::ERC20<MicroParams>)]
 impl ShUSD {
-    pub fn mint(&mut self, amount: U256) -> Result<(), ShUSDErrors> {
+    pub fn mint(&mut self, to: Address, amount: U256) -> Result<(), ShUSDErrors> {
         if self.vm().msg_sender() == self.manager.get() {
-            self.erc20.mint(self.vm().msg_sender(), amount);
+            self.erc20.mint(to, amount);
             Ok(())
         } else {
             Err(ShUSDErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))
         }
     }
 
-    pub fn burn(&mut self, amount: U256) -> Result<(), ShUSDErrors> {
+    pub fn burn(&mut self, from: Address, amount: U256) -> Result<(), ShUSDErrors> {
         if self.vm().msg_sender() == self.manager.get() {
-            self.erc20.burn(self.vm().msg_sender(), amount);
+            self.erc20.burn(from, amount);
             Ok(())
         } else {
             Err(ShUSDErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))

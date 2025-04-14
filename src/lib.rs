@@ -2,6 +2,7 @@
 #![cfg_attr(not(feature = "export-abi"), no_main)]
 extern crate alloc;
 pub mod token;
+pub mod contracts;
 
 use alloc::vec::Vec;
 use alloy_primitives::{B256, Address};
@@ -10,15 +11,15 @@ use token::erc20;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256};
 
-pub struct MicroParams;
+// pub struct MicroParams;
 
-impl erc20::ERC20Params for MicroParams {
-    const NAME: &'static str = "Shafu USD";
-    const SYMBOL: &'static str = "shUSD";
-    const DECIMALS: u8 = 18;
-    const INITIAL_CHAIN_ID: u64 = 1;
-    const INITIAL_DOMAIN_SEPARATOR: alloy_primitives::B256 = B256::ZERO;
-}
+// impl erc20::ERC20Params for MicroParams {
+    // const NAME: &'static str = "Shafu USD";
+    // const SYMBOL: &'static str = "shUSD";
+    // const DECIMALS: u8 = 18;
+    // const INITIAL_CHAIN_ID: u64 = 1;
+    // const INITIAL_DOMAIN_SEPARATOR: alloy_primitives::B256 = B256::ZERO;
+// }
 
 sol_interface! {
     interface IOracle {
@@ -38,7 +39,7 @@ const MIN_COLLAT_RATIO: u128 = 1_500_000_000_000_000_000; // 1.5e18
 #[entrypoint]
 #[storage]
 pub struct Manager {
-    sh_usd: erc20::ERC20<MicroParams>,
+    sh_usd: contracts::sh_usd::ShUSD,
     weth: StorageAddress,
     oracle: StorageAddress,
     address_2deposit: StorageMap<Address, StorageU256>,
@@ -105,16 +106,19 @@ impl Manager {
                     return Err(b"Not Undercollateralized".to_vec());
                 } else {
                     let weth_instance = IErc20::new(self.weth.get());
-                    self.sh_usd.burn(self.vm().msg_sender(), self.address_2minted.get(user));
-                    let sender = self.vm().msg_sender();
-                    let amount_deposited = self.address_2deposit.get(user);
-                    let _ = weth_instance.transfer(&mut *self, sender, amount_deposited);
-                    Ok(())
+                    match self.sh_usd.burn(self.vm().msg_sender(), self.address_2minted.get(user)) {
+                        Ok(_) => {
+                            let sender = self.vm().msg_sender();
+                            let amount_deposited = self.address_2deposit.get(user);
+                            let _ = weth_instance.transfer(&mut *self, sender, amount_deposited);
+                            Ok(())
+                        },
+                        Err(e) => return Err(e.into())
+                    }
                 }
             },
             Err(e) => return Err(e) 
         }
-
     }
 
     pub fn collat_ratio(&mut self, user: Address) -> Result<U256, Vec<u8>> {
