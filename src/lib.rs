@@ -5,9 +5,8 @@ pub mod token;
 pub mod contracts;
 
 use alloc::vec::Vec;
-use alloy_primitives::{B256, Address};
+use alloy_primitives::Address;
 use stylus_sdk::call::MethodError;
-use token::erc20;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256};
 
@@ -57,11 +56,14 @@ impl Manager {
         self.address_2deposit.insert(sender, previus_balance + amount);
     }
 
-    pub fn burn(&mut self, amount: U256) {
+    pub fn burn(&mut self, amount: U256) -> Result<(), Vec<u8>>{
         let sender = self.vm().msg_sender();
         let previous_balance = self.address_2minted.get(sender);
         self.address_2minted.insert(sender, previous_balance - amount);
-        self.sh_usd.burn(sender, amount);
+        match self.sh_usd.burn(sender, amount) {
+            Ok(_) => Ok(()),
+            Err(e) => Err(e.into())
+        }
     }
 
     pub fn mint(&mut self, amount: U256) -> Result<(), Vec<u8>> {
@@ -73,8 +75,10 @@ impl Manager {
                 if result > U256::from(MIN_COLLAT_RATIO) {
                     return Err(b"Undercollateralized".to_vec());
                 } else {
-                    self.sh_usd.mint(sender, amount);
-                    Ok(())
+                    match self.sh_usd.mint(sender, amount) {
+                        Ok(_) => return Ok(()),
+                        Err(e) => return Err(e.into())
+                    }
                 }
             },
             Err(e) => return Err(e) 

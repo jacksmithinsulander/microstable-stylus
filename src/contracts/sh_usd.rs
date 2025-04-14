@@ -1,12 +1,9 @@
-// Only run this as a WASM if the export-abi feature is not set.
-#![cfg_attr(not(feature = "export-abi"), no_main)]
 extern crate alloc;
 
 use alloc::vec::Vec;
 use alloy_primitives::{B256, Address};
 use crate::token::erc20;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
-use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256};
 use alloy_sol_types::sol;
 
 pub struct MicroParams;
