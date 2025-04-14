@@ -29,7 +29,21 @@ sol_storage! {
     }
 }
 
+sol_interface! {
+    interface IOracle {
+        function latest_answer() external view returns (uint);
+    }
+
+    interface IErc20 {
+        function transfer_from(address from, address to, uint256 value) external returns (bool);
+        function transfer(address to, uint256 value) external returns (bool);
+        function burn(address from, uint256 amount) external;
+        function mint(address from, uint256 amount) external;
+    }
+}
+
 #[storage]
+#[entrypoint]
 pub struct Manager {
     sh_usd: StorageAddress,
     weth: StorageAddress,
@@ -69,3 +83,13 @@ impl ShUSD {
     }
 }
 
+#[public]
+impl Manager {
+    pub fn deposit(&mut self, amount: U256) -> Result<(), Vec<u8>> {
+        let weth_instance = IErc20::new(self.weth.get());
+        weth_instance.transfer_from(self, self.vm().msg_sender(), self.vm().contract_address(), amount)?;
+
+
+        todo!()
+    }
+}
