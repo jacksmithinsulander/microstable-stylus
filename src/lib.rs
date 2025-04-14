@@ -10,16 +10,6 @@ use stylus_sdk::call::MethodError;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256};
 
-// pub struct MicroParams;
-
-// impl erc20::ERC20Params for MicroParams {
-    // const NAME: &'static str = "Shafu USD";
-    // const SYMBOL: &'static str = "shUSD";
-    // const DECIMALS: u8 = 18;
-    // const INITIAL_CHAIN_ID: u64 = 1;
-    // const INITIAL_DOMAIN_SEPARATOR: alloy_primitives::B256 = B256::ZERO;
-// }
-
 sol_interface! {
     interface IOracle {
         function latest_answer() external view returns (uint);

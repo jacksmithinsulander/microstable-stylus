@@ -1,26 +1,24 @@
 extern crate alloc;
 
 use alloc::vec::Vec;
-use alloy_primitives::{B256, Address};
+use alloy_primitives::Address;
 use crate::token::erc20;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 use alloy_sol_types::sol;
 
 pub struct MicroParams;
 
-impl erc20::ERC20Params for MicroParams {
+impl erc20::Erc20Params for MicroParams {
     const NAME: &'static str = "Shafu USD";
     const SYMBOL: &'static str = "shUSD";
     const DECIMALS: u8 = 18;
-    const INITIAL_CHAIN_ID: u64 = 1;
-    const INITIAL_DOMAIN_SEPARATOR: alloy_primitives::B256 = B256::ZERO;
 }
 
 sol_storage! {
     //#[entrypoint]
     pub struct ShUSD {
         #[borrow]
-        erc20::ERC20<MicroParams> erc20;
+        erc20::Erc20<MicroParams> erc20;
         address manager;
     }
 }
@@ -35,11 +33,11 @@ pub enum ShUSDErrors {
 }
 
 #[public]
-#[inherit(erc20::ERC20<MicroParams>)]
+#[inherit(erc20::Erc20<MicroParams>)]
 impl ShUSD {
     pub fn mint(&mut self, to: Address, amount: U256) -> Result<(), ShUSDErrors> {
         if self.vm().msg_sender() == self.manager.get() {
-            self.erc20.mint(to, amount);
+            let _ = self.erc20.mint(to, amount);
             Ok(())
         } else {
             Err(ShUSDErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))
@@ -48,7 +46,7 @@ impl ShUSD {
 
     pub fn burn(&mut self, from: Address, amount: U256) -> Result<(), ShUSDErrors> {
         if self.vm().msg_sender() == self.manager.get() {
-            self.erc20.burn(from, amount);
+            let _ = self.erc20.burn(from, amount);
             Ok(())
         } else {
             Err(ShUSDErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))

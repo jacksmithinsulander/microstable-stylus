@@ -1,290 +1,216 @@
-//! Provides an implementation of the ERC-20 standard.
+//! Implementation of the ERC-20 standard
 //!
-//! The eponymous [`ERC20`] type provides all the standard methods,
+//! The eponymous [`Erc20`] type provides all the standard methods,
 //! and is intended to be inherited by other contract types.
 //!
-//! You can configure the behavior of [`ERC20`] via the [`ERC20Params`] trait,
-//! which allows specifying the name, symbol, and token uri.
+//! You can configure the behavior of [`Erc20`] via the [`Erc20Params`] trait,
+//! which allows specifying the name, symbol, and decimals of the token.
 //!
 //! Note that this code is unaudited and not fit for production use.
 
-use alloc::{
-    string::String,
-    vec::Vec,
-};
-use alloy_primitives::{
-    address,
-    Address,
-    B256,
-    U256,
-};
-use alloy_sol_types::{
-    sol,
-    sol_data,
-    SolError,
-    SolType,
-};
+// Imported packages
+use alloy_primitives::{Address, U256};
+use alloy_sol_types::sol;
 use core::marker::PhantomData;
-use stylus_sdk::call::RawCall;
-use stylus_sdk::crypto;
 use stylus_sdk::prelude::*;
 
-pub trait ERC20Params {
+pub trait Erc20Params {
+    /// Immutable token name
     const NAME: &'static str;
 
+    /// Immutable token symbol
     const SYMBOL: &'static str;
 
-    // TODO: Immutable tag?
+    /// Immutable token decimals
     const DECIMALS: u8;
-
-    const INITIAL_CHAIN_ID: u64;
-
-    const INITIAL_DOMAIN_SEPARATOR: B256;
 }
 
 sol_storage! {
-    /// ERC20 implements all ERC-20 methods
-    pub struct ERC20<T: ERC20Params> {
+    /// Erc20 implements all ERC-20 methods.
+    pub struct Erc20<T> {
+        /// Maps users to balances
+        mapping(address => uint256) balances;
+        /// Maps users to a mapping of each spender's allowance
+        mapping(address => mapping(address => uint256)) allowances;
+        /// The total supply of the token
         uint256 total_supply;
-        mapping(address => uint256) balance;
-        mapping(address => mapping(address => uint256)) allowance;
-        mapping(address => uint256) nonces;
+        /// Used to allow [`Erc20Params`]
         PhantomData<T> phantom;
     }
 }
 
 // Declare events and Solidity error types
 sol! {
-    event Transfer(address indexed from, address indexed to, uint256 amount);
-    event Approval(address indexed owner, address indexed spender, uint256 amount);
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 
-    error PermitDeadlineExpired();
-    error InvalidSigner();
+    error InsufficientBalance(address from, uint256 have, uint256 want);
+    error InsufficientAllowance(address owner, address spender, uint256 have, uint256 want);
 }
 
 /// Represents the ways methods may fail.
-pub enum ERC20Error {
-    PermitDeadlineExpired(PermitDeadlineExpired),
-    InvalidSigner(InvalidSigner),
+#[derive(SolidityError)]
+pub enum Erc20Error {
+    InsufficientBalance(InsufficientBalance),
+    InsufficientAllowance(InsufficientAllowance),
 }
 
-/// We will soon provide a `#[derive(SolidityError)]` to clean this up.
-impl From<ERC20Error> for Vec<u8> {
-    fn from(val: ERC20Error) -> Self {
-        match val {
-            ERC20Error::PermitDeadlineExpired(err) => err.abi_encode(),
-            ERC20Error::InvalidSigner(err) => err.abi_encode(),
+// These methods aren't exposed to other contracts
+// Methods marked as "pub" here are usable outside of the erc20 module (i.e. they're callable from lib.rs)
+// Note: modifying storage will become much prettier soon
+impl<T: Erc20Params> Erc20<T> {
+    /// Movement of funds between 2 accounts
+    /// (invoked by the public transfer() and transfer_from() functions )
+    pub fn _transfer(&mut self, from: Address, to: Address, value: U256) -> Result<(), Erc20Error> {
+        // Decreasing sender balance
+        let mut sender_balance = self.balances.setter(from);
+        let old_sender_balance = sender_balance.get();
+        if old_sender_balance < value {
+            return Err(Erc20Error::InsufficientBalance(InsufficientBalance {
+                from,
+                have: old_sender_balance,
+                want: value,
+            }));
         }
-    }
-}
+        sender_balance.set(old_sender_balance - value);
 
-/// Simplifies the result type for the contract's methods.
-type Result<T, E = ERC20Error> = core::result::Result<T, E>;
+        // Increasing receiver balance
+        let mut to_balance = self.balances.setter(to);
+        let new_to_balance = to_balance.get() + value;
+        to_balance.set(new_to_balance);
 
-impl<T: ERC20Params> ERC20<T> {
-    pub fn compute_domain_separator(&self) -> Result<B256> {
-        let mut digest_input = [0u8; 160];
-        digest_input[0..32].copy_from_slice(&crypto::keccak("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)".as_bytes())[..]);
-        digest_input[32..64].copy_from_slice(&crypto::keccak(T::NAME.as_bytes())[..]);
-        digest_input[64..96].copy_from_slice(&crypto::keccak("1".as_bytes())[..]);
-        digest_input[96..128].copy_from_slice(&self.vm().chain_id().to_be_bytes()[..]);
-        digest_input[128..160].copy_from_slice(&self.vm().contract_address()[..]);
-
-        Ok(crypto::keccak(digest_input))
+        // Emitting the transfer event
+        log(self.vm(), Transfer { from, to, value });
+        Ok(())
     }
 
-    pub fn mint(&mut self, to: Address, amount: U256) {
-        self.total_supply.set(self.total_supply.get() + amount);
+    /// Mints `value` tokens to `address`
+    pub fn mint(&mut self, address: Address, value: U256) -> Result<(), Erc20Error> {
+        // Increasing balance
+        let mut balance = self.balances.setter(address);
+        let new_balance = balance.get() + value;
+        balance.set(new_balance);
 
-        let mut balance_setter = self.balance.setter(to);
-        let balance = balance_setter.get();
-        balance_setter.set(balance + amount);
+        // Increasing total supply
+        self.total_supply.set(self.total_supply.get() + value);
 
+        // Emitting the transfer event
         log(self.vm(), Transfer {
             from: Address::ZERO,
-            to,
-            amount,
-        });
-    }
-
-    pub fn burn(&mut self, from: Address, amount: U256) {
-        let mut balance_setter = self.balance.setter(from);
-        let balance = balance_setter.get();
-        balance_setter.set(balance - amount);
-
-        self.total_supply.set(self.total_supply.get() - amount);
-
-        log(self.vm(), Transfer {
-            from,
-            to: Address::ZERO,
-            amount,
-        });
-    }
-}
-
-#[public]
-impl<T: ERC20Params> ERC20<T> {
-    pub fn name() -> Result<String> {
-        Ok(T::NAME.into())
-    }
-
-    pub fn symbol() -> Result<String> {
-        Ok(T::SYMBOL.into())
-    }
-
-    pub fn decimals() -> Result<u8> {
-        Ok(T::DECIMALS)
-    }
-
-    pub fn total_supply(&self) -> Result<U256> {
-        Ok(self.total_supply.get())
-    }
-
-    pub fn balance_of(&self, owner: Address) -> Result<U256> {
-        Ok(U256::from(self.balance.get(owner)))
-    }
-
-    pub fn allowance(&mut self, owner: Address, spender: Address) -> Result<U256> {
-        Ok(self.allowance.getter(owner).get(spender))
-    }
-
-    pub fn nonces(&self, owner: Address) -> Result<U256> {
-        Ok(U256::from(self.nonces.get(owner)))
-    }
-
-    pub fn approve(&mut self, spender: Address, amount: U256) -> Result<bool> {
-        self.allowance.setter(self.vm().msg_sender()).insert(spender, amount);
-
-        log(self.vm(), Approval {
-            owner: self.vm().msg_sender(),
-            spender,
-            amount,
-        });
-
-        Ok(true)
-    }
-
-    pub fn transfer(&mut self, to: Address, amount: U256) -> Result<bool> {
-        let mut from_setter = self.balance.setter(self.vm().msg_sender());
-        let from_balance = from_setter.get();
-        from_setter.set(from_balance - amount);
-
-        let mut to_setter = self.balance.setter(to);
-        let to_balance = to_setter.get();
-        to_setter.set(to_balance + amount);
-
-        log(self.vm(), Transfer {
-            from: self.vm().msg_sender(),
-            to,
-            amount,
-        });
-
-        Ok(true)
-    }
-
-    pub fn transfer_from(&mut self, from: Address, to: Address, amount: U256) -> Result<bool> {
-        let allowed = self.allowance.getter(from).get(self.vm().msg_sender());
-
-        let caller = self.vm().msg_sender();
-
-        if allowed != U256::MAX {
-            self.allowance
-                .setter(from)
-                .insert(alloy_primitives::Address::from(caller), allowed - amount);
-        }
-
-        let mut from_setter = self.balance.setter(from);
-        let from_balance = from_setter.get();
-        from_setter.set(from_balance - amount);
-
-        let mut to_setter = self.balance.setter(to);
-        let to_balance = to_setter.get();
-        to_setter.set(to_balance + amount);
-
-        log(self.vm(), Transfer { from, to, amount });
-
-        Ok(true)
-    }
-
-    pub fn permit(
-        &mut self,
-        owner: Address,
-        spender: Address,
-        value: U256,
-        deadline: U256,
-        v: u8,
-        r: U256,
-        s: U256,
-    ) -> Result<()> {
-        if deadline < U256::from(self.vm().block_timestamp() ) {
-            return Err(ERC20Error::PermitDeadlineExpired(PermitDeadlineExpired {}));
-        }
-
-        let mut nonce_setter = self.balance.setter(owner);
-        let nonce = nonce_setter.get();
-        nonce_setter.set(nonce + U256::from(1));
-
-        let mut struct_hash = [0u8; 192];
-        struct_hash[0..32].copy_from_slice(&crypto::keccak(b"Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)")[..]);
-        struct_hash[32..64].copy_from_slice(&owner[..]);
-        struct_hash[64..96].copy_from_slice(&spender[..]);
-        struct_hash[96..128].copy_from_slice(&value.to_be_bytes_vec()[..]);
-        // TODO: Increase nonce
-        struct_hash[128..160].copy_from_slice(&nonce.to_be_bytes_vec()[..]);
-        struct_hash[160..192].copy_from_slice(&deadline.to_be_bytes_vec()[..]);
-
-        let mut digest_input = [0u8; 2 + 32 + 32];
-        digest_input[0] = 0x19;
-        digest_input[1] = 0x01;
-        digest_input[2..34].copy_from_slice(&self.domain_separator()?[..]);
-        digest_input[34..66].copy_from_slice(&crypto::keccak(struct_hash)[..]);
-
-        let data = <sol! { (bytes32, uint8, uint256, uint256) }>::abi_encode(&(
-            *crypto::keccak(digest_input),
-            v,
-            r,
-            s,
-        ));
-
-        let recovered_address: Address = unsafe {
-            //RawCall::new_static()
-            // .gas(evm::gas_left())
-            // .call(address!("0000000000000000000000000000000000000001"), &data)
-            // .map(|ret| sol_data::Address::abi_decode(ret.as_slice(), false).unwrap()) //sol_data::Address::decode_single(ret.as_slice(), false).unwrap())
-            // .map_err(|_| ERC20Error::InvalidSigner(InvalidSigner {}))?;
-            RawCall::new_static()
-                .gas(self.vm().evm_gas_left())
-                .gas(self.vm().evm_gas_left())
-                .call(address!("0000000000000000000000000000000000000001"), &data)
-                .map_err(|_| ERC20Error::InvalidSigner(InvalidSigner {}))
-                .and_then(|ret| {
-                    sol_data::Address::abi_decode(ret.as_slice(), false)
-                        .map_err(|_| ERC20Error::InvalidSigner(InvalidSigner {}))
-                })?
-        };
-
-        if recovered_address.is_zero() || recovered_address != owner {
-            return Err(ERC20Error::InvalidSigner(InvalidSigner {}));
-        }
-
-        self.allowance
-            .setter(recovered_address)
-            .insert(spender, value);
-
-        log(self.vm(), Approval {
-            owner,
-            spender,
-            amount: value,
+            to: address,
+            value,
         });
 
         Ok(())
     }
 
-    pub fn domain_separator(&mut self) -> Result<B256> {
-        if self.vm().chain_id() == T::INITIAL_CHAIN_ID {
-            Ok(T::INITIAL_DOMAIN_SEPARATOR)
-        } else {
-            Ok(ERC20::<T>::compute_domain_separator(self)?)
+    /// Burns `value` tokens from `address`
+    pub fn burn(&mut self, address: Address, value: U256) -> Result<(), Erc20Error> {
+        // Decreasing balance
+        let mut balance = self.balances.setter(address);
+        let old_balance = balance.get();
+        if old_balance < value {
+            return Err(Erc20Error::InsufficientBalance(InsufficientBalance {
+                from: address,
+                have: old_balance,
+                want: value,
+            }));
         }
+        balance.set(old_balance - value);
+
+        // Decreasing the total supply
+        self.total_supply.set(self.total_supply.get() - value);
+
+        // Emitting the transfer event
+        log(self.vm(),Transfer {
+            from: address,
+            to: Address::ZERO,
+            value,
+        });
+
+        Ok(())
+    }
+}
+
+// These methods are public to other contracts
+// Note: modifying storage will become much prettier soon
+#[public]
+impl<T: Erc20Params> Erc20<T> {
+    /// Immutable token name
+    pub fn name() -> String {
+        T::NAME.into()
+    }
+
+    /// Immutable token symbol
+    pub fn symbol() -> String {
+        T::SYMBOL.into()
+    }
+
+    /// Immutable token decimals
+    pub fn decimals() -> u8 {
+        T::DECIMALS
+    }
+
+    /// Total supply of tokens
+    pub fn total_supply(&self) -> U256 {
+        self.total_supply.get()
+    }
+
+    /// Balance of `address`
+    pub fn balance_of(&self, owner: Address) -> U256 {
+        self.balances.get(owner)
+    }
+
+    /// Transfers `value` tokens from msg::sender() to `to`
+    pub fn transfer(&mut self, to: Address, value: U256) -> Result<bool, Erc20Error> {
+        self._transfer(self.vm().msg_sender(), to, value)?;
+        Ok(true)
+    }
+
+    /// Transfers `value` tokens from `from` to `to`
+    /// (msg::sender() must be able to spend at least `value` tokens from `from`)
+    pub fn transfer_from(
+        &mut self,
+        from: Address,
+        to: Address,
+        value: U256,
+    ) -> Result<bool, Erc20Error> {
+        // Check msg::sender() allowance
+        let sender = self.vm().msg_sender();
+        let mut sender_allowances = self.allowances.setter(from);
+        let mut allowance = sender_allowances.setter(sender);
+        let old_allowance = allowance.get();
+        if old_allowance < value {
+            return Err(Erc20Error::InsufficientAllowance(InsufficientAllowance {
+                owner: from,
+                spender: self.vm().msg_sender(),
+                have: old_allowance,
+                want: value,
+            }));
+        }
+
+        // Decreases allowance
+        allowance.set(old_allowance - value);
+
+        // Calls the internal transfer function
+        self._transfer(from, to, value)?;
+
+        Ok(true)
+    }
+
+    /// Approves the spenditure of `value` tokens of msg::sender() to `spender`
+    pub fn approve(&mut self, spender: Address, value: U256) -> bool {
+        self.allowances.setter(self.vm().msg_sender()).insert(spender, value);
+        log(self.vm(), Approval {
+            owner: self.vm().msg_sender(),
+            spender,
+            value,
+        });
+        true
+    }
+
+    /// Returns the allowance of `spender` on `owner`'s tokens
+    pub fn allowance(&self, owner: Address, spender: Address) -> U256 {
+        self.allowances.getter(owner).get(spender)
     }
 }
