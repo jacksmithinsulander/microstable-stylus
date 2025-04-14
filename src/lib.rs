@@ -105,6 +105,8 @@ impl Manager {
                             let sender = self.vm().msg_sender();
                             let amount_deposited = self.address_2deposit.get(user);
                             let _ = weth_instance.transfer(&mut *self, sender, amount_deposited);
+                            self.address_2deposit.insert(user, U256::ZERO);
+                            self.address_2minted.insert(user, U256::ZERO);
                             Ok(())
                         },
                         Err(e) => return Err(e.into())
