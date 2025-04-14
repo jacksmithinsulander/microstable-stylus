@@ -27,13 +27,7 @@ use alloy_sol_types::{
 use core::marker::PhantomData;
 use stylus_sdk::call::RawCall;
 use stylus_sdk::crypto;
-use stylus_sdk::{
-    block,
-    contract,
-    evm,
-    msg,
-    prelude::*,
-};
+use stylus_sdk::prelude::*;
 
 pub trait ERC20Params {
     const NAME: &'static str;
@@ -88,13 +82,13 @@ impl From<ERC20Error> for Vec<u8> {
 type Result<T, E = ERC20Error> = core::result::Result<T, E>;
 
 impl<T: ERC20Params> ERC20<T> {
-    pub fn compute_domain_separator() -> Result<B256> {
+    pub fn compute_domain_separator(&self) -> Result<B256> {
         let mut digest_input = [0u8; 160];
         digest_input[0..32].copy_from_slice(&crypto::keccak("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)".as_bytes())[..]);
         digest_input[32..64].copy_from_slice(&crypto::keccak(T::NAME.as_bytes())[..]);
         digest_input[64..96].copy_from_slice(&crypto::keccak("1".as_bytes())[..]);
-        digest_input[96..128].copy_from_slice(&block::chainid().to_be_bytes()[..]);
-        digest_input[128..160].copy_from_slice(&contract::address()[..]);
+        digest_input[96..128].copy_from_slice(&self.vm().chain_id().to_be_bytes()[..]);
+        digest_input[128..160].copy_from_slice(&self.vm().contract_address()[..]);
 
         Ok(crypto::keccak(digest_input))
     }
@@ -106,7 +100,7 @@ impl<T: ERC20Params> ERC20<T> {
         let balance = balance_setter.get();
         balance_setter.set(balance + amount);
 
-        evm::log(Transfer {
+        log(self.vm(), Transfer {
             from: Address::ZERO,
             to,
             amount,
@@ -120,7 +114,7 @@ impl<T: ERC20Params> ERC20<T> {
 
         self.total_supply.set(self.total_supply.get() - amount);
 
-        evm::log(Transfer {
+        log(self.vm(), Transfer {
             from,
             to: Address::ZERO,
             amount,
@@ -159,10 +153,10 @@ impl<T: ERC20Params> ERC20<T> {
     }
 
     pub fn approve(&mut self, spender: Address, amount: U256) -> Result<bool> {
-        self.allowance.setter(msg::sender()).insert(spender, amount);
+        self.allowance.setter(self.vm().msg_sender()).insert(spender, amount);
 
-        evm::log(Approval {
-            owner: msg::sender(),
+        log(self.vm(), Approval {
+            owner: self.vm().msg_sender(),
             spender,
             amount,
         });
@@ -171,7 +165,7 @@ impl<T: ERC20Params> ERC20<T> {
     }
 
     pub fn transfer(&mut self, to: Address, amount: U256) -> Result<bool> {
-        let mut from_setter = self.balance.setter(msg::sender());
+        let mut from_setter = self.balance.setter(self.vm().msg_sender());
         let from_balance = from_setter.get();
         from_setter.set(from_balance - amount);
 
@@ -179,8 +173,8 @@ impl<T: ERC20Params> ERC20<T> {
         let to_balance = to_setter.get();
         to_setter.set(to_balance + amount);
 
-        evm::log(Transfer {
-            from: msg::sender(),
+        log(self.vm(), Transfer {
+            from: self.vm().msg_sender(),
             to,
             amount,
         });
@@ -189,12 +183,14 @@ impl<T: ERC20Params> ERC20<T> {
     }
 
     pub fn transfer_from(&mut self, from: Address, to: Address, amount: U256) -> Result<bool> {
-        let allowed = self.allowance.getter(from).get(msg::sender());
+        let allowed = self.allowance.getter(from).get(self.vm().msg_sender());
+
+        let caller = self.vm().msg_sender();
 
         if allowed != U256::MAX {
             self.allowance
                 .setter(from)
-                .insert(msg::sender(), allowed - amount);
+                .insert(alloy_primitives::Address::from(caller), allowed - amount);
         }
 
         let mut from_setter = self.balance.setter(from);
@@ -205,7 +201,7 @@ impl<T: ERC20Params> ERC20<T> {
         let to_balance = to_setter.get();
         to_setter.set(to_balance + amount);
 
-        evm::log(Transfer { from, to, amount });
+        log(self.vm(), Transfer { from, to, amount });
 
         Ok(true)
     }
@@ -220,7 +216,7 @@ impl<T: ERC20Params> ERC20<T> {
         r: U256,
         s: U256,
     ) -> Result<()> {
-        if deadline < U256::from(block::timestamp()) {
+        if deadline < U256::from(self.vm().block_timestamp() ) {
             return Err(ERC20Error::PermitDeadlineExpired(PermitDeadlineExpired {}));
         }
 
@@ -257,7 +253,8 @@ impl<T: ERC20Params> ERC20<T> {
             // .map(|ret| sol_data::Address::abi_decode(ret.as_slice(), false).unwrap()) //sol_data::Address::decode_single(ret.as_slice(), false).unwrap())
             // .map_err(|_| ERC20Error::InvalidSigner(InvalidSigner {}))?;
             RawCall::new_static()
-                .gas(evm::gas_left())
+                .gas(self.vm().evm_gas_left())
+                .gas(self.vm().evm_gas_left())
                 .call(address!("0000000000000000000000000000000000000001"), &data)
                 .map_err(|_| ERC20Error::InvalidSigner(InvalidSigner {}))
                 .and_then(|ret| {
@@ -274,7 +271,7 @@ impl<T: ERC20Params> ERC20<T> {
             .setter(recovered_address)
             .insert(spender, value);
 
-        evm::log(Approval {
+        log(self.vm(), Approval {
             owner,
             spender,
             amount: value,
@@ -284,10 +281,10 @@ impl<T: ERC20Params> ERC20<T> {
     }
 
     pub fn domain_separator(&mut self) -> Result<B256> {
-        if block::chainid() == T::INITIAL_CHAIN_ID {
+        if self.vm().chain_id() == T::INITIAL_CHAIN_ID {
             Ok(T::INITIAL_DOMAIN_SEPARATOR)
         } else {
-            Ok(ERC20::<T>::compute_domain_separator()?)
+            Ok(ERC20::<T>::compute_domain_separator(self)?)
         }
     }
 }
