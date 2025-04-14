@@ -62,7 +62,7 @@ impl Manager {
         self.address_2minted.insert(sender, previous_balance + amount);
         match self.collat_ratio(sender) {
             Ok(result) => {
-                if result > U256::from(MIN_COLLAT_RATIO) {
+                if result < U256::from(MIN_COLLAT_RATIO) {
                     return Err(b"Undercollateralized".to_vec());
                 } else {
                     match self.sh_usd.mint(sender, amount) {
@@ -81,7 +81,7 @@ impl Manager {
         self.address_2minted.insert(sender, previous_balance - amount);
         match self.collat_ratio(sender) {
             Ok(result) => {
-                if result > U256::from(MIN_COLLAT_RATIO) {
+                if result < U256::from(MIN_COLLAT_RATIO) {
                     return Err(b"Undercollateralized".to_vec());
                 } else {
                     let weth_instance = IErc20::new(self.weth.get());
@@ -96,7 +96,7 @@ impl Manager {
     pub fn liquidate(&mut self, user: Address) -> Result<(), Vec<u8>> {
         match self.collat_ratio(user) {
             Ok(result) => {
-                if result < U256::from(MIN_COLLAT_RATIO) {
+                if result > U256::from(MIN_COLLAT_RATIO) {
                     return Err(b"Not Undercollateralized".to_vec());
                 } else {
                     let weth_instance = IErc20::new(self.weth.get());
@@ -115,7 +115,7 @@ impl Manager {
         }
     }
 
-    pub fn collat_ratio(&mut self, user: Address) -> Result<U256, Vec<u8>> {
+    pub fn collat_ratio(&self, user: Address) -> Result<U256, Vec<u8>> {
         let minted = self.address_2minted.get(user);
         if minted.is_zero() {
             return Ok(U256::MAX);
