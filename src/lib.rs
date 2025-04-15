@@ -37,6 +37,11 @@ pub struct Manager {
 
 #[public]
 impl Manager {
+    pub fn init(&mut self, weth_address: Address, oracle_address: Address) {
+        self.weth.set(weth_address);
+        self.oracle.set(oracle_address);
+    }
+
     pub fn deposit(&mut self, amount: U256) {
         let weth_instance = IErc20::new(self.weth.get());
         let sender = self.vm().msg_sender();

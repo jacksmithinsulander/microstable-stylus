@@ -35,6 +35,10 @@ pub enum ShUSDErrors {
 #[public]
 #[inherit(erc20::Erc20<MicroParams>)]
 impl ShUSD {
+    pub fn init(&mut self, manager_address: Address) {
+        self.manager.set(manager_address);
+    }
+
     pub fn mint(&mut self, to: Address, amount: U256) -> Result<(), ShUSDErrors> {
         if self.vm().msg_sender() == self.manager.get() {
             let _ = self.erc20.mint(to, amount);
