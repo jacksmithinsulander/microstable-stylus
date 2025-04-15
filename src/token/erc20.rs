@@ -13,6 +13,8 @@ use alloy_primitives::{Address, U256};
 use alloy_sol_types::sol;
 use core::marker::PhantomData;
 use stylus_sdk::prelude::*;
+use alloc::{vec::Vec, string::String};
+use alloc::vec;
 
 pub trait Erc20Params {
     /// Immutable token name

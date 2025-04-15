@@ -23,15 +23,18 @@ eyre = "0.6.8"
 stylus-sdk = { version = "0.8.4", features = ["stylus-test"] }
 
 [features]
-export-abi = ["stylus-sdk/export-abi"]
-debug = ["stylus-sdk/debug"]
+# export-abi = ["stylus-sdk/export-abi"]
+# debug = ["stylus-sdk/debug"]
+sh-usd = []
+manager = []
 
 [[bin]]
 name = "stylus-hello-world"
 path = "src/main.rs"
 
 [lib]
-crate-type = ["lib", "cdylib"]
+# crate-type = ["lib", "cdylib"]
+name = "microstable"
 
 [profile.release]
 codegen-units = 1

@@ -4307,7 +4307,6 @@ dependencies = [
  "lazy_static",
  "mini-alloc",
  "rclite",
- "regex",
  "stylus-core",
  "stylus-proc",
  "stylus-test",
