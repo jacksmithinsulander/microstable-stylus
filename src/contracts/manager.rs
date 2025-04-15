@@ -4,8 +4,6 @@ use alloy_primitives::Address;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256};
 
-//#[cfg_attr(any(feature = "manager"), stylus_sdk::prelude::entrypoint)]
-
 sol_interface! {
     interface IOracle {
         function latest_answer() external view returns (uint);
@@ -21,7 +19,6 @@ sol_interface! {
 
 const MIN_COLLAT_RATIO: u128 = 1_500_000_000_000_000_000; // 1.5e18
 
-//#[entrypoint]
 #[cfg_attr(any(feature = "manager"), stylus_sdk::prelude::entrypoint)]
 #[storage]
 pub struct Manager {
@@ -33,7 +30,6 @@ pub struct Manager {
 }
 
 #[cfg_attr(feature = "manager", stylus_sdk::prelude::public)]
-//#[public]
 impl Manager {
     pub fn init(&mut self, weth_address: Address, oracle_address: Address) {
         self.weth.set(weth_address);

@@ -6,5 +6,3 @@ pub use crate::contracts::sh_usd::user_entrypoint;
 
 #[cfg(feature = "manager")]
 pub use crate::contracts::manager::user_entrypoint;
-
-

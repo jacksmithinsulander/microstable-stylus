@@ -34,8 +34,7 @@ pub enum ShUSDErrors {
     OnlyManagerCanCall(OnlyManagerCanCall),
 }
 
-#[inherit(erc20::Erc20<MicroParams>)]
-#[cfg_attr(feature = "sh-usd", stylus_sdk::prelude::public)]
+#[cfg_attr(feature = "sh-usd", stylus_sdk::prelude::public, inherit(erc20::Erc20::<MicroParams>))]
 impl ShUSD {
     pub fn init(&mut self, manager_address: Address) {
         self.manager.set(manager_address);
