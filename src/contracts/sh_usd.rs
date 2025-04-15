@@ -8,8 +8,6 @@ use crate::token::erc20;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 use alloy_sol_types::sol;
 
-#[cfg_attr(any(feature = "sh-usd"), stylus_sdk::prelude::entrypoint)]
-
 pub struct MicroParams;
 
 impl erc20::Erc20Params for MicroParams {
@@ -19,7 +17,7 @@ impl erc20::Erc20Params for MicroParams {
 }
 
 sol_storage! {
-    //#[entrypoint]
+    #[cfg_attr(any(feature = "sh-usd"), stylus_sdk::prelude::entrypoint)]
     pub struct ShUSD {
         #[borrow]
         erc20::Erc20<MicroParams> erc20;
@@ -36,9 +34,8 @@ pub enum ShUSDErrors {
     OnlyManagerCanCall(OnlyManagerCanCall),
 }
 
-#[cfg_attr(feature = "sh-usd", stylus_sdk::prelude::public)]
-#[public]
 #[inherit(erc20::Erc20<MicroParams>)]
+#[cfg_attr(feature = "sh-usd", stylus_sdk::prelude::public)]
 impl ShUSD {
     pub fn init(&mut self, manager_address: Address) {
         self.manager.set(manager_address);

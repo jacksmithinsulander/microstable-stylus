@@ -1,11 +1,10 @@
 use alloc::vec;
 use alloc::vec::Vec;
 use alloy_primitives::Address;
-use stylus_sdk::call::MethodError;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256};
 
-#[cfg_attr(any(feature = "manager"), stylus_sdk::prelude::entrypoint)]
+//#[cfg_attr(any(feature = "manager"), stylus_sdk::prelude::entrypoint)]
 
 sol_interface! {
     interface IOracle {
@@ -22,7 +21,8 @@ sol_interface! {
 
 const MIN_COLLAT_RATIO: u128 = 1_500_000_000_000_000_000; // 1.5e18
 
-#[entrypoint]
+//#[entrypoint]
+#[cfg_attr(any(feature = "manager"), stylus_sdk::prelude::entrypoint)]
 #[storage]
 pub struct Manager {
     sh_usd: super::sh_usd::ShUSD,
@@ -33,7 +33,7 @@ pub struct Manager {
 }
 
 #[cfg_attr(feature = "manager", stylus_sdk::prelude::public)]
-#[public]
+//#[public]
 impl Manager {
     pub fn init(&mut self, weth_address: Address, oracle_address: Address) {
         self.weth.set(weth_address);
@@ -130,7 +130,7 @@ impl Manager {
         let deposited = self.address_2deposit.get(user);
         let price = match oracle_instance.latest_answer(self) {
             Ok(p) => p,
-            Err(e) => return Err(e.encode())
+            Err(e) => return Err(e.into())
         };
         let price_scaled = price * U256::from(1e10 as u64);
         let value = deposited * price_scaled / U256::from(1e18 as u64);
