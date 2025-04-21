@@ -3,6 +3,7 @@ use alloc::vec::Vec;
 use alloy_primitives::Address;
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256};
+use crate::contracts::sh_usd::ShUSD;
 
 sol_interface! {
     interface IOracle {
@@ -22,7 +23,7 @@ const MIN_COLLAT_RATIO: u128 = 1_500_000_000_000_000_000; // 1.5e18
 #[cfg_attr(any(feature = "manager"), stylus_sdk::prelude::entrypoint)]
 #[storage]
 pub struct Manager {
-    sh_usd: super::sh_usd::ShUSD,
+    sh_usd: ShUSD,
     weth: StorageAddress,
     oracle: StorageAddress,
     address_2deposit: StorageMap<Address, StorageU256>,

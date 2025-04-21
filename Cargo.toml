@@ -25,6 +25,7 @@ stylus-sdk = { version = "0.8.4", features = ["stylus-test"] }
 [features]
 sh-usd = []
 manager = []
+harness-stylus-interpreter = []
 
 [[bin]]
 name = "stylus-hello-world"
