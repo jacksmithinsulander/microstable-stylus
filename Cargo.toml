@@ -23,6 +23,7 @@ stylus-sdk = { version = "0.8.4", features = ["stylus-test"] }
 [features]
 sh-usd = []
 manager = []
+test-oracle = []
 harness-stylus-interpreter = []
 
 [[bin]]

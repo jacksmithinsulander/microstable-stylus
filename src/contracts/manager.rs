@@ -6,7 +6,7 @@ use stylus_sdk::{alloy_primitives::U256, prelude::*};
 
 sol_interface! {
     interface IOracle {
-        function latest_answer() external view returns (uint);
+        function latest_answer() external view returns (int);
     }
 
     interface IErc20 {
@@ -40,7 +40,7 @@ impl Manager {
         self.weth.set(weth_address);
         self.oracle.set(oracle_address);
         self.sh_usd.set(sh_usd_address);
-        self.is_initialized.set(true)
+        self.is_initialized.set(true);
     }
 
     pub fn deposit(&mut self, amount: U256) {
