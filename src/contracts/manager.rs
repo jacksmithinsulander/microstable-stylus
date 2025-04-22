@@ -1,7 +1,7 @@
 use alloc::vec;
 use alloc::vec::Vec;
 use alloy_primitives::Address;
-use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256};
+use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256, StorageBool};
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
 
 sol_interface! {
@@ -27,15 +27,20 @@ pub struct Manager {
     oracle: StorageAddress,
     address_2deposit: StorageMap<Address, StorageU256>,
     address_2minted: StorageMap<Address, StorageU256>,
+    is_initialized: StorageBool
 }
 
 #[cfg_attr(feature = "manager", stylus_sdk::prelude::public)]
 #[cfg(feature = "manager")]
 impl Manager {
     pub fn init(&mut self, weth_address: Address, oracle_address: Address, sh_usd_address: Address) {
+        if self.is_initialized.get() {
+            return;
+        }
         self.weth.set(weth_address);
         self.oracle.set(oracle_address);
         self.sh_usd.set(sh_usd_address);
+        self.is_initialized.set(true)
     }
 
     pub fn deposit(&mut self, amount: U256) {
