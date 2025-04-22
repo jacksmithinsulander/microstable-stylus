@@ -1,4 +1,3 @@
-use crate::contracts::sh_usd::ShUSD;
 use alloc::vec;
 use alloc::vec::Vec;
 use alloy_primitives::Address;
@@ -13,6 +12,8 @@ sol_interface! {
     interface IErc20 {
         function transfer_from(address from, address to, uint256 value) external returns (bool);
         function transfer(address to, uint256 value) external returns (bool);
+        function burn(address from, uint256 amount) external;
+        function mint(address from, uint256 amount) external;
     }
 }
 
@@ -21,7 +22,7 @@ const MIN_COLLAT_RATIO: u128 = 1_500_000_000_000_000_000; // 1.5e18
 #[cfg_attr(feature = "manager", stylus_sdk::prelude::entrypoint)]
 #[storage]
 pub struct Manager {
-    sh_usd: ShUSD,
+    sh_usd: StorageAddress,
     weth: StorageAddress,
     oracle: StorageAddress,
     address_2deposit: StorageMap<Address, StorageU256>,
@@ -31,9 +32,10 @@ pub struct Manager {
 #[cfg_attr(feature = "manager", stylus_sdk::prelude::public)]
 #[cfg(feature = "manager")]
 impl Manager {
-    pub fn init(&mut self, weth_address: Address, oracle_address: Address) {
+    pub fn init(&mut self, weth_address: Address, oracle_address: Address, sh_usd_address: Address) {
         self.weth.set(weth_address);
         self.oracle.set(oracle_address);
+        self.sh_usd.set(sh_usd_address);
     }
 
     pub fn deposit(&mut self, amount: U256) {
@@ -49,7 +51,8 @@ impl Manager {
         let sender = self.vm().msg_sender();
         let previous_balance = self.address_2minted.get(sender);
         self.address_2minted.insert(sender, previous_balance - amount);
-        match self.sh_usd.burn(sender, amount) {
+        let sh_usd_instance = IErc20::new(self.sh_usd.get());
+        match sh_usd_instance.burn(self, sender, amount) {
             Ok(_) => Ok(()),
             Err(e) => Err(e.into()),
         }
@@ -64,7 +67,8 @@ impl Manager {
                 if result < U256::from(MIN_COLLAT_RATIO) {
                     return Err(b"Undercollateralized".to_vec());
                 } else {
-                    match self.sh_usd.mint(sender, amount) {
+                    let sh_usd_instance = IErc20::new(self.sh_usd.get());
+                    match sh_usd_instance.mint(self ,sender, amount) {
                         Ok(_) => return Ok(()),
                         Err(e) => return Err(e.into())
                     }
@@ -99,13 +103,11 @@ impl Manager {
                     return Err(b"Not Undercollateralized".to_vec());
                 } else {
                     let weth_instance = IErc20::new(self.weth.get());
-                    match self
-                        .sh_usd
-                        .burn(self.vm().msg_sender(), self.address_2minted.get(user))
-                    {
+                    let sh_usd_instance = IErc20::new(self.sh_usd.get());
+                    let sender = self.vm().msg_sender();
+                    let amount_deposited = self.address_2deposit.get(user);
+                    match sh_usd_instance.burn(&mut *self, sender, amount_deposited) {
                         Ok(_) => {
-                            let sender = self.vm().msg_sender();
-                            let amount_deposited = self.address_2deposit.get(user);
                             let _ = weth_instance.transfer(&mut *self, sender, amount_deposited);
                             self.address_2deposit.insert(user, U256::ZERO);
                             self.address_2minted.insert(user, U256::ZERO);
