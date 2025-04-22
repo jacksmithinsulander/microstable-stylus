@@ -13,8 +13,6 @@ sol_interface! {
     interface IErc20 {
         function transfer_from(address from, address to, uint256 value) external returns (bool);
         function transfer(address to, uint256 value) external returns (bool);
-        function burn(address from, uint256 amount) external;
-        function mint(address from, uint256 amount) external;
     }
 }
 
@@ -44,15 +42,13 @@ impl Manager {
         let this = self.vm().contract_address();
         let _ = weth_instance.transfer_from(&mut *self, sender, this, amount);
         let previus_balance = self.address_2deposit.get(sender);
-        self.address_2deposit
-            .insert(sender, previus_balance + amount);
+        self.address_2deposit.insert(sender, previus_balance + amount);
     }
 
     pub fn burn(&mut self, amount: U256) -> Result<(), Vec<u8>> {
         let sender = self.vm().msg_sender();
         let previous_balance = self.address_2minted.get(sender);
-        self.address_2minted
-            .insert(sender, previous_balance - amount);
+        self.address_2minted.insert(sender, previous_balance - amount);
         match self.sh_usd.burn(sender, amount) {
             Ok(_) => Ok(()),
             Err(e) => Err(e.into()),
@@ -62,8 +58,7 @@ impl Manager {
     pub fn mint(&mut self, amount: U256) -> Result<(), Vec<u8>> {
         let sender = self.vm().msg_sender();
         let previous_balance = self.address_2minted.get(sender);
-        self.address_2minted
-            .insert(sender, previous_balance + amount);
+        self.address_2minted.insert(sender, previous_balance + amount);
         match self.collat_ratio(sender) {
             Ok(result) => {
                 if result < U256::from(MIN_COLLAT_RATIO) {

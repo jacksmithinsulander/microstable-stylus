@@ -4,7 +4,6 @@
 extern crate alloc;
 pub mod token;
 pub mod contracts;
-pub mod micro;
 
 #[cfg(all(target_arch = "wasm32", feature = "harness-stylus-interpreter"))]
 #[link(wasm_import_module = "stylus_interpreter")]
