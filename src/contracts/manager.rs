@@ -2,8 +2,9 @@ use alloc::vec;
 use alloc::vec::Vec;
 use alloy_primitives::Address;
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256, StorageBool};
-use stylus_sdk::{alloy_primitives::U256, prelude::*, call::RawCall, alloy_sol_types::{sol, SolCall},};
+use stylus_sdk::{alloy_primitives::{U256, I256}, prelude::*, call::RawCall, alloy_sol_types::{sol, SolCall},};
 use crate::alloc::string::ToString;
+use core::str::FromStr;
 
 sol_interface! {
     interface IOracle {
@@ -86,22 +87,23 @@ impl Manager {
         self.address_2minted.insert(sender, previous_balance + amount);
         match self.collat_ratio(sender) {
             Ok(result) => {
-                if result < U256::from(MIN_COLLAT_RATIO) {
-                    return Err(b"Undercollateralized".to_vec());
-                } else {
-                    let sh_usd_instance = IErc20::new(self.sh_usd.get());
-                    match sh_usd_instance.mint(self ,sender, amount) {
-                        Ok(_) => return Ok(()),
-                        Err(e) => return Err(e.into())
-                    }
-                    //unsafe { 
-                        //&RawCall::new().call(self.sh_usd.get(), &mintCall {
-                            //from: sender,
-                            //amount: amount,
-                        //}.abi_encode())
-                    //};
-                    //Ok(())
-                }
+                Ok(())
+                //if result < U256::from(MIN_COLLAT_RATIO) {
+                    //return Err(b"Undercollateralized".to_vec());
+                //} else {
+                    //let sh_usd_instance = IErc20::new(self.sh_usd.get());
+                    //match sh_usd_instance.mint(self ,sender, amount) {
+                        //Ok(_) => return Ok(()),
+                        //Err(e) => return Err(e.into())
+                    //}
+                    ////unsafe { 
+                        ////&RawCall::new().call(self.sh_usd.get(), &mintCall {
+                            ////from: sender,
+                            ////amount: amount,
+                        ////}.abi_encode())
+                    ////};
+                    ////Ok(())
+                //}
             },
             Err(e) => return Err(e) 
         }
@@ -156,18 +158,20 @@ impl Manager {
             return Ok(U256::MAX);
         }
 
-        let oracle_instance = IOracle::new(self.oracle.get());
+        // let oracle_instance = IOracle::new(self.oracle.get());
         let deposited = self.address_2deposit.get(user);
-        //let price = match oracle_instance.latest_answer(self) {
-            //Ok(p) => p,
-            //Err(e) => return Err(e.into()),
-        //};
+        // let price = match oracle_instance.latest_answer(self) {
+            // Ok(p) => p,
+            // Err(e) => return Err(e.into()),
+        // };
+        // let price_scaled = U256::from_str(&price.to_string()).unwrap() * U256::from(1e10 as u64);
 
-        let price = U256::from_be_slice(unsafe {
-            &RawCall::new().call(self.oracle.get(), &latestAnswerCall {}.abi_encode()).unwrap()
-        });
-        let price_scaled = price * U256::from(1e10 as u64);
-        let value = deposited * price_scaled / U256::from(1e18 as u64);
-        Ok(value / minted)
+        let price = unsafe {
+            &RawCall::new().call(self.oracle.get(), &latestAnswerCall {}.abi_encode())
+        };
+        // let price_scaled = price * U256::from(1e10 as u64);
+        // let value = deposited * price_scaled / U256::from(1e18 as u64);
+        // Ok(value / minted)
+        Ok(U256::from(MIN_COLLAT_RATIO))
     }
 }
