@@ -166,9 +166,9 @@ impl Manager {
         // };
         // let price_scaled = U256::from_str(&price.to_string()).unwrap() * U256::from(1e10 as u64);
 
-        let price = unsafe {
+        let price = I256::from(unsafe {
             &RawCall::new().call(self.oracle.get(), &latestAnswerCall {}.abi_encode())
-        };
+        });
         // let price_scaled = price * U256::from(1e10 as u64);
         // let value = deposited * price_scaled / U256::from(1e18 as u64);
         // Ok(value / minted)
