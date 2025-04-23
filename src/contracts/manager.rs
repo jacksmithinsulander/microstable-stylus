@@ -3,6 +3,8 @@ use alloc::vec::Vec;
 use alloy_primitives::Address;
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256, StorageBool};
 use stylus_sdk::{alloy_primitives::U256, prelude::*};
+use crate::alloc::string::ToString;
+use core::str::FromStr;
 
 sol_interface! {
     interface IOracle {
@@ -138,7 +140,7 @@ impl Manager {
             Ok(p) => p,
             Err(e) => return Err(e.into()),
         };
-        let price_scaled = price * U256::from(1e10 as u64);
+        let price_scaled = U256::from_str(&price.to_string()).unwrap() * U256::from(1e10 as u64);
         let value = deposited * price_scaled / U256::from(1e18 as u64);
         Ok(value / minted)
     }

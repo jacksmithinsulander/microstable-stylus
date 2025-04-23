@@ -19,7 +19,8 @@ extern "C" {
     not(any(
         feature = "manager",
         feature = "sh-usd",
-        feature = "test-oracle"
+        feature = "test-oracle",
+        feature = "test-weth"
     ))
 ))]
 compile_error!("one of the contract-* features must be enabled!");
