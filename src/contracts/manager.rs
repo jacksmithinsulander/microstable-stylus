@@ -2,7 +2,7 @@ use alloc::vec;
 use alloc::vec::Vec;
 use alloy_primitives::Address;
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256, StorageBool};
-use stylus_sdk::{alloy_primitives::{U256, I256}, prelude::*, call::RawCall, alloy_sol_types::{sol, SolCall},};
+use stylus_sdk::{alloy_primitives::U256, prelude::*, call::RawCall, alloy_sol_types::{sol, SolCall}};
 use crate::alloc::string::ToString;
 use core::str::FromStr;
 
@@ -26,6 +26,8 @@ sol! {
     function burn(address from, uint256 amount) external;
     function mint(address from, uint256 amount) external;
 }
+
+sol!("./src/contracts/AggregatorV3Interface.sol");
 
 const MIN_COLLAT_RATIO: u128 = 1_500_000_000_000_000_000; // 1.5e18
 
@@ -127,51 +129,41 @@ impl Manager {
         }
     }
 
-    pub fn liquidate(&mut self, user: Address) -> Result<(), Vec<u8>> {
-        match self.collat_ratio(user) {
-            Ok(result) => {
-                if result > U256::from(MIN_COLLAT_RATIO) {
-                    return Err(b"Not Undercollateralized".to_vec());
-                } else {
-                    let weth_instance = IErc20::new(self.weth.get());
-                    let sh_usd_instance = IErc20::new(self.sh_usd.get());
-                    let sender = self.vm().msg_sender();
-                    let amount_deposited = self.address_2deposit.get(user);
-                    match sh_usd_instance.burn(&mut *self, sender, amount_deposited) {
-                        Ok(_) => {
-                            let _ = weth_instance.transfer(&mut *self, sender, amount_deposited);
-                            self.address_2deposit.insert(user, U256::ZERO);
-                            self.address_2minted.insert(user, U256::ZERO);
-                            Ok(())
-                        },
-                        Err(e) => return Err(e.into())
-                    }
-                }
-            },
-            Err(e) => return Err(e) 
-        }
-    }
+    // pub fn liquidate(&mut self, user: Address) -> Result<(), Vec<u8>> {
+        // match self.collat_ratio(user) {
+            // Ok(result) => {
+                // if result > U256::from(MIN_COLLAT_RATIO) {
+                    // return Err(b"Not Undercollateralized".to_vec());
+                // } else {
+                    // let weth_instance = IErc20::new(self.weth.get());
+                    // let sh_usd_instance = IErc20::new(self.sh_usd.get());
+                    // let sender = self.vm().msg_sender();
+                    // let amount_deposited = self.address_2deposit.get(user);
+                    // match sh_usd_instance.burn(&mut *self, sender, amount_deposited) {
+                        // Ok(_) => {
+                            // let _ = weth_instance.transfer(&mut *self, sender, amount_deposited);
+                            // self.address_2deposit.insert(user, U256::ZERO);
+                            // self.address_2minted.insert(user, U256::ZERO);
+                            // Ok(())
+                        // },
+                        // Err(e) => return Err(e.into())
+                    // }
+                // }
+            // },
+            // Err(e) => return Err(e) 
+        // }
+    // }
 
     pub fn collat_ratio(&self, user: Address) -> Result<U256, Vec<u8>> {
         let minted = self.address_2minted.get(user);
         if minted.is_zero() {
             return Ok(U256::MAX);
         }
-
-        // let oracle_instance = IOracle::new(self.oracle.get());
         let deposited = self.address_2deposit.get(user);
-        // let price = match oracle_instance.latest_answer(self) {
-            // Ok(p) => p,
-            // Err(e) => return Err(e.into()),
-        // };
-        // let price_scaled = U256::from_str(&price.to_string()).unwrap() * U256::from(1e10 as u64);
-
-        let price = I256::from(unsafe {
-            &RawCall::new().call(self.oracle.get(), &latestAnswerCall {}.abi_encode())
-        });
-        // let price_scaled = price * U256::from(1e10 as u64);
-        // let value = deposited * price_scaled / U256::from(1e18 as u64);
-        // Ok(value / minted)
-        Ok(U256::from(MIN_COLLAT_RATIO))
+        let price_raw = unsafe { &RawCall::new().call(self.oracle.get(), &latestAnswerCall {}.abi_encode()).unwrap() };
+        let price = AggregatorV3Interface::latestAnswerCall::abi_decode_returns(&price_raw, true).unwrap()._0;
+        let price_scaled = U256::from_str(&price.to_string()).unwrap() * U256::from(1e10 as u64);
+        let value = deposited * price_scaled / U256::from(1e18 as u64);
+        Ok(value / minted)
     }
 }
