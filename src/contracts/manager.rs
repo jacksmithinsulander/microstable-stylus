@@ -2,9 +2,8 @@ use alloc::vec;
 use alloc::vec::Vec;
 use alloy_primitives::Address;
 use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256, StorageBool};
-use stylus_sdk::{alloy_primitives::U256, prelude::*};
+use stylus_sdk::{alloy_primitives::U256, prelude::*, call::RawCall, alloy_sol_types::{sol, SolCall},};
 use crate::alloc::string::ToString;
-use core::str::FromStr;
 
 sol_interface! {
     interface IOracle {
@@ -17,6 +16,14 @@ sol_interface! {
         function burn(address from, uint256 amount) external;
         function mint(address from, uint256 amount) external;
     }
+}
+
+sol! {
+    function latestAnswer() external view returns (int);
+    function transferFrom(address from, address to, uint256 value) external returns (bool);
+    function transfer(address to, uint256 value) external returns (bool);
+    function burn(address from, uint256 amount) external;
+    function mint(address from, uint256 amount) external;
 }
 
 const MIN_COLLAT_RATIO: u128 = 1_500_000_000_000_000_000; // 1.5e18
@@ -46,10 +53,17 @@ impl Manager {
     }
 
     pub fn deposit(&mut self, amount: U256) {
-        let weth_instance = IErc20::new(self.weth.get());
         let sender = self.vm().msg_sender();
         let this = self.vm().contract_address();
-        let _ = weth_instance.transfer_from(&mut *self, sender, this, amount);
+
+        unsafe { 
+            let _ = &RawCall::new().call(self.weth.get(), &transferFromCall {
+                from: sender,
+                to: this,
+                value: amount,
+            }.abi_encode());
+        };
+
         let previus_balance = self.address_2deposit.get(sender);
         self.address_2deposit.insert(sender, previus_balance + amount);
     }
@@ -63,6 +77,7 @@ impl Manager {
             Ok(_) => Ok(()),
             Err(e) => Err(e.into()),
         }
+
     }
 
     pub fn mint(&mut self, amount: U256) -> Result<(), Vec<u8>> {
@@ -79,6 +94,13 @@ impl Manager {
                         Ok(_) => return Ok(()),
                         Err(e) => return Err(e.into())
                     }
+                    //unsafe { 
+                        //&RawCall::new().call(self.sh_usd.get(), &mintCall {
+                            //from: sender,
+                            //amount: amount,
+                        //}.abi_encode())
+                    //};
+                    //Ok(())
                 }
             },
             Err(e) => return Err(e) 
@@ -136,11 +158,15 @@ impl Manager {
 
         let oracle_instance = IOracle::new(self.oracle.get());
         let deposited = self.address_2deposit.get(user);
-        let price = match oracle_instance.latest_answer(self) {
-            Ok(p) => p,
-            Err(e) => return Err(e.into()),
-        };
-        let price_scaled = U256::from_str(&price.to_string()).unwrap() * U256::from(1e10 as u64);
+        //let price = match oracle_instance.latest_answer(self) {
+            //Ok(p) => p,
+            //Err(e) => return Err(e.into()),
+        //};
+
+        let price = U256::from_be_slice(unsafe {
+            &RawCall::new().call(self.oracle.get(), &latestAnswerCall {}.abi_encode()).unwrap()
+        });
+        let price_scaled = price * U256::from(1e10 as u64);
         let value = deposited * price_scaled / U256::from(1e18 as u64);
         Ok(value / minted)
     }

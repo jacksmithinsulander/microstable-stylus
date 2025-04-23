@@ -168,7 +168,24 @@ cast send $MANAGER_ADDRESS "deposit(uint256)" 100000000000000000 --rpc-url $RPC_
 
 echo "🏃 Checking weth balance of manager contract, after deposit..."
 MANAGER_WETH_BALANCE_AFTER=$(cast call $WETH_ADDRESS "balanceOf(address)(uint256)" $MANAGER_ADDRESS --rpc-url $RPC_URL)
+echo "🧐 Manager weth balance is: $MANAGER_WETH_BALANCE_AFTER"
 if [ $MANAGER_WETH_BALANCE_AFTER != 100000000000000000 ]; then
     echo "❌ Didnt manage to deposit weth?? Managers balance is $MANAGER_WETH_BALANCE_AFTER"
     exit 1
 fi
+echo "✅ Deposit success!!"
+
+echo "🏃 Fetching collateral ratio..."
+BEFORE_COLLATERAL_RATIO=$(cast call $MANAGER_ADDRESS "collatRatio(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL --private-key $PRIVATE_KEY)
+echo "🧐 Collateral ratio is is: $BEFORE_COLLATERAL_RATIO"
+
+echo "🏃 Checking sh usd balance of my wallet..."
+MANAGER_SH_USD_BALANCE_BEFORE=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL)
+if [ "$MANAGER_SH_USD_BALANCE_BEFORE" -ne "0" ]; then
+    echo "❌ Somehow manager already had a weth balance?? $MANAGER_SH_USD_BALANCE_BEFORE"
+    exit 1
+fi
+
+echo "🫣 Finally minting, scary, LETS GO!!"
+
+cast send $MANAGER_ADDRESS "mint(uint256)" 10000000000000000000 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
