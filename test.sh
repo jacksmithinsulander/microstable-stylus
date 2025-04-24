@@ -186,6 +186,7 @@ if [ "$MY_SH_USD_BALANCE_BEFORE" -ne "0" ]; then
     exit 1
 fi
 
+# Minting ShUSD
 echo "🫣 Finally minting, scary, LETS GO!!"
 cast send $MANAGER_ADDRESS "mint(uint256)" 100 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
 
@@ -203,6 +204,7 @@ if [ $MY_SH_USD_BALANCE != 100 ]; then
 fi
 echo "✅ Got the correct amount"
 
+# Burning ShUSD
 echo "🔥 Now trying to burn the tokens..."
 cast send $MANAGER_ADDRESS "burn(uint256)" 100 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
 MY_SH_USD_BALANCE_AFTER_BURN=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL)
@@ -211,6 +213,17 @@ if [ $MY_SH_USD_BALANCE_AFTER_BURN != 0 ]; then
     exit 1
 fi
 echo "✅ Burn went through as intended"
+
+# Resetting state
+BALANCE_BEFORE_WITHDRAWAL=$(cast call $WETH_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL -- --to-dec)
+echo "🏃‍♂️ Testing to withdraw, current user weth balance: $BALANCE_BEFORE_WITHDRAWAL"
+cast send $MANAGER_ADDRESS "withdraw(uint256)" $MANAGER_WETH_BALANCE_AFTER --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+BALANCE_AFTER_WITHDRAWAL=$(cast call $WETH_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL -- --to-dec)
+echo "🧐 Balance now: $BALANCE_AFTER_WITHDRAWAL Balance before withdrawal: $BALANCE_BEFORE_WITHDRAWAL"
+
+cast send $MANAGER_ADDRESS "deposit(uint256)" 100000000000000000 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+BALANCE_AFTER_REDEPOSIT=$(cast call $WETH_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL -- --to-dec)
+echo "🧐 Balance now: $BALANCE_AFTER_REDEPOSIT Balance before redeposit: $BALANCE_AFTER_WITHDRAWAL"
 
 echo "⛏️ Reminting...."
 cast send $MANAGER_ADDRESS "mint(uint256)" 100 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
@@ -224,17 +237,28 @@ if [ $MY_SH_USD_BALANCE_AFTER_REMINT != 100 ]; then
 fi
 echo "✅ Got the correct amount"
 
+# Setup prior to liquidation
 echo "😈 Trying out liquidtion"
 BOB_PKEY="0x$(openssl rand -hex 32)"
 echo "Bob pkey: $BOB_PKEY"
 BOB_PUBKEY=$(cast wallet address --private-key $BOB_PKEY)
 echo "Bob pubkey: $BOB_PUBKEY"
 
+echo "📉 Rekting eth price"
+cast send $TEST_ORACLE_ADDRESS "rekt()" --rpc-url $RPC_URL --private-key $PRIVATE_KEY
 
+COLLATERAL_RATIO_AFTER_REKT=$(cast call $MANAGER_ADDRESS "collatRatio(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL --private-key $PRIVATE_KEY)
+echo "🤓 Rekt collateral ratio is: $COLLATERAL_RATIO_AFTER_REKT, the one before was: $COLLATERAL_RATIO"
 
+cast send $BOB_PUBKEY --value 1ether --rpc-url $RPC_URL --private-key $PRIVATE_KEY
 
-#echo "📉 Rekting eth price"
-#cast send $TEST_ORACLE_ADDRESS "rekt()" --rpc-url $RPC_URL --private-key $PRIVATE_KEY
-
-#COLLATERAL_RATIO_AFTER_REKT=$(cast call $MANAGER_ADDRESS "collatRatio(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL --private-key $PRIVATE_KEY)
-#echo "🤓 Rekt collateral ratio is: $COLLATERAL_RATIO_AFTER_REKT, the one before was: $COLLATERAL_RATIO"
+BOB_WETH_BALANCE_BEFORE=$(cast call $WETH_ADDRESS "balanceOf(address)(uint256)" $BOB_PUBKEY --rpc-url $RPC_URL -- --to-dec)
+echo "Bobs balance before: $BOB_WETH_BALANCE_BEFORE"
+MY_SH_USD_BALANCE_BEFORE_LIQ=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL -- --to-dec)
+echo "My ShUSD balance before liquidation: $MY_SH_USD_BALANCE_BEFORE_LIQ"
+# Performing actual liquidation
+cast send $MANAGER_ADDRESS "liquidate(address)" $PUB_KEY --rpc-url $RPC_URL --private-key $BOB_PKEY
+BOB_WETH_BALANCE_AFTER=$(cast call $WETH_ADDRESS "balanceOf(address)(uint256)" $BOB_PUBKEY --rpc-url $RPC_URL -- --to-dec)
+echo "Bobs balance after: $BOB_WETH_BALANCE_AFTER"
+MY_SH_USD_BALANCE_AFTER_LIQ=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL -- --to-dec)
+echo "My ShUSD balance after liquidation: $MY_SH_USD_BALANCE_AFTER_LIQ"

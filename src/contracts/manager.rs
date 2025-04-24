@@ -7,29 +7,6 @@ use crate::alloc::string::ToString;
 use core::str::FromStr;
 use crate::contracts::calls;
 
-sol_interface! {
-    interface IOracle {
-        function latest_answer() external view returns (int);
-    }
-
-    interface IErc20 {
-        function transfer_from(address from, address to, uint256 value) external returns (bool);
-        function transfer(address to, uint256 value) external returns (bool);
-        function burn(address from, uint256 amount) external;
-        function mint(address from, uint256 amount) external;
-    }
-}
-
-sol! {
-    function latestAnswer() external view returns (int);
-    function transferFrom(address from, address to, uint256 value) external returns (bool);
-    function transfer(address to, uint256 value) external returns (bool);
-    function burn(address from, uint256 amount) external;
-    function mint(address from, uint256 amount) external;
-}
-
-sol!("./src/contracts/AggregatorV3Interface.sol");
-
 const MIN_COLLAT_RATIO: u128 = 1_500_000_000_000_000_000; // 1.5e18
 
 #[cfg_attr(feature = "manager", stylus_sdk::prelude::entrypoint)]
@@ -60,13 +37,14 @@ impl Manager {
         let sender = self.vm().msg_sender();
         let this = self.vm().contract_address();
 
-        unsafe { 
-            let _ = &RawCall::new().call(self.weth.get(), &transferFromCall {
-                from: sender,
-                to: this,
-                value: amount,
-            }.abi_encode());
-        };
+        //unsafe { 
+            //let _ = &RawCall::new().call(self.weth.get(), &transferFromCall {
+                //from: sender,
+                //to: this,
+                //value: amount,
+            //}.abi_encode());
+        //};
+        let _ = calls::transfer_from_call(self.weth.get(), sender, this, amount);
 
         let previus_balance = self.address_2deposit.get(sender);
         self.address_2deposit.insert(sender, previus_balance + amount);
@@ -76,12 +54,14 @@ impl Manager {
         let sender = self.vm().msg_sender();
         let previous_balance = self.address_2minted.get(sender);
         self.address_2minted.insert(sender, previous_balance - amount);
-        let sh_usd_instance = IErc20::new(self.sh_usd.get());
-        match sh_usd_instance.burn(self, sender, amount) {
-            Ok(_) => Ok(()),
-            Err(e) => Err(e.into()),
-        }
-
+        //unsafe { 
+            //let _ = &RawCall::new().call(self.sh_usd.get(), &burnCall {
+                //from: sender,
+                //amount: amount,
+            //}.abi_encode());
+        //}
+        let _ = calls::burn_call(self.sh_usd.get(), sender, amount);
+        Ok(())
     }
 
     pub fn mint(&mut self, amount: U256) -> Result<(), Vec<u8>> {
@@ -93,12 +73,13 @@ impl Manager {
                 if result < U256::from(MIN_COLLAT_RATIO) {
                     return Err(b"undercollateralized".to_vec());
                 } else {
-                    unsafe { 
-                        &RawCall::new().call(self.sh_usd.get(), &mintCall {
-                            from: sender,
-                            amount: amount,
-                        }.abi_encode())
-                    };
+                    //unsafe { 
+                        //&RawCall::new().call(self.sh_usd.get(), &mintCall {
+                            //from: sender,
+                            //amount: amount,
+                        //}.abi_encode())
+                    //};
+                    let _ = calls::mint_call(self.sh_usd.get(), sender, amount);
                     Ok(())
                 }
             },
@@ -115,8 +96,13 @@ impl Manager {
                 if result < U256::from(MIN_COLLAT_RATIO) {
                     return Err(b"Undercollateralized".to_vec());
                 } else {
-                    let weth_instance = IErc20::new(self.weth.get());
-                    let _ = weth_instance.transfer(self, sender, amount);
+                    // unsafe { 
+                        // let _ = &RawCall::new().call(self.weth.get(), &transferCall {
+                            // to: sender,
+                            // value: amount,
+                        // }.abi_encode());
+                    // }
+                    let _ = calls::transfer_call(self.weth.get(), sender, amount);
                     Ok(())
                 }
             },
@@ -130,14 +116,13 @@ impl Manager {
                 if result >= U256::from(MIN_COLLAT_RATIO) {
                     return Err(b"Not undercollateralized".to_vec());
                 } else {
-                    let weth_instance = IErc20::new(self.weth.get());
-                    let sh_usd_instance = IErc20::new(self.sh_usd.get());
                     let sender = self.vm().msg_sender();
                     let amount_minted = self.address_2minted.get(user);
-                    match sh_usd_instance.burn(&mut *self, sender, amount_minted) {
+                    match calls::burn_call(self.sh_usd.get(), user, amount_minted) {
                         Ok(_) => {
                             let amount_deposited = self.address_2deposit.get(user);
-                            let _ = weth_instance.transfer(&mut *self, sender, amount_deposited);
+                            let _ = calls::transfer_call(self.weth.get(), sender, amount_deposited);
+                            //weth_instance.transfer(&mut *self, sender, amount_deposited);
                             self.address_2deposit.insert(user, U256::ZERO);
                             self.address_2minted.insert(user, U256::ZERO);
                             Ok(())
