@@ -108,8 +108,8 @@ impl Manager {
 
     pub fn withdraw(&mut self, amount: U256) -> Result<(), Vec<u8>> {
         let sender = self.vm().msg_sender();
-        let previous_balance = self.address_2deposit.get(sender);
-        self.address_2minted.insert(sender, previous_balance - amount);
+        let previous_deposit = self.address_2deposit.get(sender);
+        self.address_2deposit.insert(sender, previous_deposit - amount);
         match self.collat_ratio(sender) {
             Ok(result) => {
                 if result < U256::from(MIN_COLLAT_RATIO) {
@@ -120,22 +120,23 @@ impl Manager {
                     Ok(())
                 }
             },
-            Err(e) => return Err(e) 
+            Err(e) => return Err(e)
         }
     }
 
     pub fn liquidate(&mut self, user: Address) -> Result<(), Vec<u8>> {
         match self.collat_ratio(user) {
             Ok(result) => {
-                if result > U256::from(MIN_COLLAT_RATIO) {
-                    return Err(b"Not Undercollateralized".to_vec());
+                if result >= U256::from(MIN_COLLAT_RATIO) {
+                    return Err(b"Not undercollateralized".to_vec());
                 } else {
                     let weth_instance = IErc20::new(self.weth.get());
                     let sh_usd_instance = IErc20::new(self.sh_usd.get());
                     let sender = self.vm().msg_sender();
-                    let amount_deposited = self.address_2deposit.get(user);
-                    match sh_usd_instance.burn(&mut *self, sender, amount_deposited) {
+                    let amount_minted = self.address_2minted.get(user);
+                    match sh_usd_instance.burn(&mut *self, sender, amount_minted) {
                         Ok(_) => {
+                            let amount_deposited = self.address_2deposit.get(user);
                             let _ = weth_instance.transfer(&mut *self, sender, amount_deposited);
                             self.address_2deposit.insert(user, U256::ZERO);
                             self.address_2minted.insert(user, U256::ZERO);
@@ -145,7 +146,7 @@ impl Manager {
                     }
                 }
             },
-            Err(e) => return Err(e) 
+            Err(e) => return Err(e)
         }
     }
 

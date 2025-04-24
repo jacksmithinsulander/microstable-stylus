@@ -182,7 +182,7 @@ echo "🧐 Collateral ratio is is: $BEFORE_COLLATERAL_RATIO"
 echo "🏃 Checking sh usd balance of my wallet..."
 MY_SH_USD_BALANCE_BEFORE=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL)
 if [ "$MY_SH_USD_BALANCE_BEFORE" -ne "0" ]; then
-    echo "❌ Somehow manager already had a weth balance?? $MY_SH_USD_BALANCE_BEFORE"
+    echo "❌ Somehow manager already had a shusd balance?? $MY_SH_USD_BALANCE_BEFORE"
     exit 1
 fi
 
@@ -202,3 +202,39 @@ if [ $MY_SH_USD_BALANCE != 100 ]; then
     exit 1
 fi
 echo "✅ Got the correct amount"
+
+echo "🔥 Now trying to burn the tokens..."
+cast send $MANAGER_ADDRESS "burn(uint256)" 100 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+MY_SH_USD_BALANCE_AFTER_BURN=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL)
+if [ $MY_SH_USD_BALANCE_AFTER_BURN != 0 ]; then
+    echo "❌ Didnt burn?? $MY_SH_USD_BALANCE_AFTER_BURN"
+    exit 1
+fi
+echo "✅ Burn went through as intended"
+
+echo "⛏️ Reminting...."
+cast send $MANAGER_ADDRESS "mint(uint256)" 100 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+
+MY_SH_USD_BALANCE_AFTER_REMINT=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL)
+
+echo "🥹 My balance is: $MY_SH_USD_BALANCE_AFTER_REMINT"
+if [ $MY_SH_USD_BALANCE_AFTER_REMINT != 100 ]; then
+    echo "❌ Wrong amount gotten, got $MY_SH_USD_BALANCE_AFTER_REMINT"
+    exit 1
+fi
+echo "✅ Got the correct amount"
+
+echo "😈 Trying out liquidtion"
+BOB_PKEY="0x$(openssl rand -hex 32)"
+echo "Bob pkey: $BOB_PKEY"
+BOB_PUBKEY=$(cast wallet address --private-key $BOB_PKEY)
+echo "Bob pubkey: $BOB_PUBKEY"
+
+
+
+
+#echo "📉 Rekting eth price"
+#cast send $TEST_ORACLE_ADDRESS "rekt()" --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+
+#COLLATERAL_RATIO_AFTER_REKT=$(cast call $MANAGER_ADDRESS "collatRatio(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL --private-key $PRIVATE_KEY)
+#echo "🤓 Rekt collateral ratio is: $COLLATERAL_RATIO_AFTER_REKT, the one before was: $COLLATERAL_RATIO"
