@@ -10,8 +10,6 @@ sol! {
     function mint(address to, uint256 amount) external;
 }
 
-sol!("./src/contracts/AggregatorV3Interface.sol");
-
 pub fn latest_answer_call(oracle: Address) -> Result<I256, Vec<u8>> {
     match I256::try_from_be_slice(unsafe { &RawCall::new().call(oracle, &latestAnswerCall {}.abi_encode()).unwrap()}) {
         Some(res) => Ok(res),
