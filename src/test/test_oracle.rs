@@ -1,7 +1,7 @@
-use alloc::vec::Vec;
 use alloc::vec;
-use stylus_sdk::{alloy_primitives::I256, prelude::*};
+use alloc::vec::Vec;
 use stylus_sdk::storage::StorageBool;
+use stylus_sdk::{alloy_primitives::I256, prelude::*};
 
 const PRICE: I256 = I256::from_limbs([175_765_550_000, 0, 0, 0]);
 

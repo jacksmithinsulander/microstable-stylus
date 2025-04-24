@@ -1,10 +1,6 @@
-use alloc::vec;
 use alloc::vec::Vec;
 use alloy_primitives::Address;
-use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256, StorageBool};
-use stylus_sdk::{alloy_primitives::{I256, U256}, prelude::*, call::RawCall, alloy_sol_types::{sol, SolCall}};
-use crate::alloc::string::ToString;
-use core::str::FromStr;
+use stylus_sdk::{alloy_primitives::{I256, U256}, call::RawCall, alloy_sol_types::{sol, SolCall}};
 
 sol! {
     function latestAnswer() external view returns (int);

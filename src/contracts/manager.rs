@@ -1,11 +1,11 @@
 use alloc::vec;
 use alloc::vec::Vec;
-use alloy_primitives::Address;
-use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256, StorageBool};
-use stylus_sdk::{alloy_primitives::U256, prelude::*, call::RawCall, alloy_sol_types::{sol, SolCall}};
-use crate::alloc::string::ToString;
 use core::str::FromStr;
 use crate::contracts::calls;
+use alloy_primitives::Address;
+use crate::alloc::string::ToString;
+use stylus_sdk::{alloy_primitives::U256, prelude::*};
+use stylus_sdk::storage::{StorageAddress, StorageMap, StorageU256, StorageBool};
 
 const MIN_COLLAT_RATIO: u128 = 1_500_000_000_000_000_000; // 1.5e18
 
