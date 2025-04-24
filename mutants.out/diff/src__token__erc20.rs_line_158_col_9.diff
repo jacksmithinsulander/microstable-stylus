@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace Erc20<T>::total_supply -> U256 with Default::default()
+@@ -150,17 +150,17 @@
+ 
+     /// Immutable token decimals
+     pub fn decimals() -> u8 {
+         T::DECIMALS
+     }
+ 
+     /// Total supply of tokens
+     pub fn total_supply(&self) -> U256 {
+-        self.total_supply.get()
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Balance of `address`
+     pub fn balance_of(&self, owner: Address) -> U256 {
+         self.balances.get(owner)
+     }
+ 
+     /// Transfers `value` tokens from msg::sender() to `to`

@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace < with == in Erc20<T>::transfer_from
+@@ -177,17 +177,17 @@
+         to: Address,
+         value: U256,
+     ) -> Result<bool, Erc20Error> {
+         // Check msg::sender() allowance
+         let sender = self.vm().msg_sender();
+         let mut sender_allowances = self.allowances.setter(from);
+         let mut allowance = sender_allowances.setter(sender);
+         let old_allowance = allowance.get();
+-        if old_allowance < value {
++        if old_allowance == /* ~ changed by cargo-mutants ~ */ value {
+             return Err(Erc20Error::InsufficientAllowance(InsufficientAllowance {
+                 owner: from,
+                 spender: self.vm().msg_sender(),
+                 have: old_allowance,
+                 want: value,
+             }));
+         }
+ 

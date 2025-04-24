@@ -2,7 +2,7 @@ use alloc::vec::Vec;
 use alloc::vec;
 use stylus_sdk::{alloy_primitives::I256, prelude::*};
 
-const PRICE: I256 = I256::from_limbs([170_147_173_700, 0, 0, 0]);
+const PRICE: I256 = I256::from_limbs([175_765_550_000, 0, 0, 0]);
 
 #[cfg_attr(feature = "test-oracle", stylus_sdk::prelude::entrypoint)]
 #[storage]

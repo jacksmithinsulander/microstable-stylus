@@ -1,0 +1,28 @@
+--- src/contracts/manager.rs
++++ replace Manager::burn -> Result<(), Vec<u8>> with Ok(())
+@@ -67,24 +67,17 @@
+             }.abi_encode());
+         };
+ 
+         let previus_balance = self.address_2deposit.get(sender);
+         self.address_2deposit.insert(sender, previus_balance + amount);
+     }
+ 
+     pub fn burn(&mut self, amount: U256) -> Result<(), Vec<u8>> {
+-        let sender = self.vm().msg_sender();
+-        let previous_balance = self.address_2minted.get(sender);
+-        self.address_2minted.insert(sender, previous_balance - amount);
+-        let sh_usd_instance = IErc20::new(self.sh_usd.get());
+-        match sh_usd_instance.burn(self, sender, amount) {
+-            Ok(_) => Ok(()),
+-            Err(e) => Err(e.into()),
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+ 
+     }
+ 
+     pub fn mint(&mut self, amount: U256) -> Result<(), Vec<u8>> {
+         let sender = self.vm().msg_sender();
+         let previous_balance = self.address_2minted.get(sender);
+         self.address_2minted.insert(sender, previous_balance + amount);
+         match self.collat_ratio(sender) {

@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace - with + in Erc20<T>::_transfer
+@@ -69,17 +69,17 @@
+         let old_sender_balance = sender_balance.get();
+         if old_sender_balance < value {
+             return Err(Erc20Error::InsufficientBalance(InsufficientBalance {
+                 from,
+                 have: old_sender_balance,
+                 want: value,
+             }));
+         }
+-        sender_balance.set(old_sender_balance - value);
++        sender_balance.set(old_sender_balance + /* ~ changed by cargo-mutants ~ */ value);
+ 
+         // Increasing receiver balance
+         let mut to_balance = self.balances.setter(to);
+         let new_to_balance = to_balance.get() + value;
+         to_balance.set(new_to_balance);
+ 
+         // Emitting the transfer event
+         log(self.vm(), Transfer { from, to, value });

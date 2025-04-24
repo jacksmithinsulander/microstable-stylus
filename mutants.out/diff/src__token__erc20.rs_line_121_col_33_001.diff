@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace - with + in Erc20<T>::burn
+@@ -113,17 +113,17 @@
+         let old_balance = balance.get();
+         if old_balance < value {
+             return Err(Erc20Error::InsufficientBalance(InsufficientBalance {
+                 from: address,
+                 have: old_balance,
+                 want: value,
+             }));
+         }
+-        balance.set(old_balance - value);
++        balance.set(old_balance + /* ~ changed by cargo-mutants ~ */ value);
+ 
+         // Decreasing the total supply
+         self.total_supply.set(self.total_supply.get() - value);
+ 
+         // Emitting the transfer event
+         log(self.vm(),Transfer {
+             from: address,
+             to: Address::ZERO,

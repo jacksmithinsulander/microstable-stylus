@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace Erc20<T>::symbol -> String with String::new()
+@@ -140,17 +140,17 @@
+ impl<T: Erc20Params> Erc20<T> {
+     /// Immutable token name
+     pub fn name() -> String {
+         T::NAME.into()
+     }
+ 
+     /// Immutable token symbol
+     pub fn symbol() -> String {
+-        T::SYMBOL.into()
++        String::new() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Immutable token decimals
+     pub fn decimals() -> u8 {
+         T::DECIMALS
+     }
+ 
+     /// Total supply of tokens

@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace + with * in Erc20<T>::_transfer
+@@ -73,17 +73,17 @@
+                 have: old_sender_balance,
+                 want: value,
+             }));
+         }
+         sender_balance.set(old_sender_balance - value);
+ 
+         // Increasing receiver balance
+         let mut to_balance = self.balances.setter(to);
+-        let new_to_balance = to_balance.get() + value;
++        let new_to_balance = to_balance.get() * /* ~ changed by cargo-mutants ~ */ value;
+         to_balance.set(new_to_balance);
+ 
+         // Emitting the transfer event
+         log(self.vm(), Transfer { from, to, value });
+         Ok(())
+     }
+ 
+     /// Mints `value` tokens to `address`

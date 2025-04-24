@@ -18,7 +18,7 @@ impl erc20::Erc20Params for MicroParams {
 
 sol_storage! {
     #[cfg_attr(any(feature = "test-weth"), stylus_sdk::prelude::entrypoint)]
-    pub struct ShUSD {
+    pub struct TestWeth {
         #[borrow]
         erc20::Erc20<MicroParams> erc20;
         address manager;
@@ -30,31 +30,31 @@ sol! {
 }
 
 #[derive(SolidityError)]
-pub enum ShUSDErrors {
+pub enum TestWethErrors {
     OnlyManagerCanCall(OnlyManagerCanCall),
 }
 
 #[cfg_attr(feature = "test-weth", stylus_sdk::prelude::public, inherit(erc20::Erc20::<MicroParams>))]
-impl ShUSD {
+impl TestWeth {
     pub fn init(&mut self, manager_address: Address) {
         self.manager.set(manager_address);
     }
 
-    pub fn mint(&mut self, to: Address, amount: U256) -> Result<(), ShUSDErrors> {
+    pub fn mint(&mut self, to: Address, amount: U256) -> Result<(), TestWethErrors> {
         if self.vm().msg_sender() == self.manager.get() {
             let _ = self.erc20.mint(to, amount);
             Ok(())
         } else {
-            Err(ShUSDErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))
+            Err(TestWethErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))
         }
     }
 
-    pub fn burn(&mut self, from: Address, amount: U256) -> Result<(), ShUSDErrors> {
+    pub fn burn(&mut self, from: Address, amount: U256) -> Result<(), TestWethErrors> {
         if self.vm().msg_sender() == self.manager.get() {
             let _ = self.erc20.burn(from, amount);
             Ok(())
         } else {
-            Err(ShUSDErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))
+            Err(TestWethErrors::OnlyManagerCanCall(OnlyManagerCanCall {}))
         }
     }
 }

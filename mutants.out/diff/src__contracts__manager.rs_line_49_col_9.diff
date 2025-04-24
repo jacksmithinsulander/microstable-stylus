@@ -1,0 +1,27 @@
+--- src/contracts/manager.rs
++++ replace Manager::init with ()
+@@ -41,23 +41,17 @@
+     address_2minted: StorageMap<Address, StorageU256>,
+     is_initialized: StorageBool
+ }
+ 
+ #[cfg_attr(feature = "manager", stylus_sdk::prelude::public)]
+ #[cfg(feature = "manager")]
+ impl Manager {
+     pub fn init(&mut self, weth_address: Address, oracle_address: Address, sh_usd_address: Address) {
+-        if self.is_initialized.get() {
+-            return;
+-        }
+-        self.weth.set(weth_address);
+-        self.oracle.set(oracle_address);
+-        self.sh_usd.set(sh_usd_address);
+-        self.is_initialized.set(true);
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn deposit(&mut self, amount: U256) {
+         let sender = self.vm().msg_sender();
+         let this = self.vm().contract_address();
+ 
+         unsafe { 
+             let _ = &RawCall::new().call(self.weth.get(), &transferFromCall {

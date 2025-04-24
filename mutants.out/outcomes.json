@@ -1,0 +1,4753 @@
+{
+  "outcomes": [
+    {
+      "scenario": "Baseline",
+      "summary": "Success",
+      "log_path": "log/baseline.log",
+      "diff_path": null,
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 45.899052625,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.80648275,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::withdraw",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 114,
+                "column": 5
+              },
+              "end": {
+                "line": 130,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 120,
+              "column": 27
+            },
+            "end": {
+              "line": 120,
+              "column": 28
+            }
+          },
+          "replacement": ">",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_120_col_27.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_120_col_27.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.653931458,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.656517375,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::transfer_from",
+            "return_type": "-> Result<bool, Erc20Error>",
+            "span": {
+              "start": {
+                "line": 172,
+                "column": 5
+              },
+              "end": {
+                "line": 201,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 195,
+              "column": 37
+            },
+            "end": {
+              "line": 195,
+              "column": 38
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_195_col_37.log",
+      "diff_path": "diff/src__token__erc20.rs_line_195_col_37.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.645360417,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.647983167,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::burn",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 109,
+                "column": 5
+              },
+              "end": {
+                "line": 134,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 121,
+              "column": 33
+            },
+            "end": {
+              "line": 121,
+              "column": 34
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_121_col_33.log",
+      "diff_path": "diff/src__token__erc20.rs_line_121_col_33.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.647134334,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.653510958,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::collat_ratio",
+            "return_type": "-> Result<U256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 5
+              },
+              "end": {
+                "line": 168,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 165,
+              "column": 72
+            },
+            "end": {
+              "line": 165,
+              "column": 73
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_165_col_72.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_165_col_72.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.656441167,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.652370625,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::collat_ratio",
+            "return_type": "-> Result<U256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 5
+              },
+              "end": {
+                "line": 168,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 166,
+              "column": 31
+            },
+            "end": {
+              "line": 166,
+              "column": 32
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_166_col_31.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_166_col_31.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.593259041,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.652751709,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::total_supply",
+            "return_type": "-> U256",
+            "span": {
+              "start": {
+                "line": 156,
+                "column": 5
+              },
+              "end": {
+                "line": 159,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 158,
+              "column": 9
+            },
+            "end": {
+              "line": 158,
+              "column": 32
+            }
+          },
+          "replacement": "Default::default()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_158_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_158_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.644856833,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.650136542,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::_transfer",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 5
+              },
+              "end": {
+                "line": 87,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 70,
+              "column": 31
+            },
+            "end": {
+              "line": 70,
+              "column": 32
+            }
+          },
+          "replacement": ">",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_70_col_31.log",
+      "diff_path": "diff/src__token__erc20.rs_line_70_col_31.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.595950958,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.650018792,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::burn",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 74,
+                "column": 5
+              },
+              "end": {
+                "line": 84,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 77,
+              "column": 62
+            },
+            "end": {
+              "line": 77,
+              "column": 63
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_77_col_62.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_77_col_62.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.644659667,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.64735275,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::_transfer",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 5
+              },
+              "end": {
+                "line": 87,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 77,
+              "column": 47
+            },
+            "end": {
+              "line": 77,
+              "column": 48
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_77_col_47.log",
+      "diff_path": "diff/src__token__erc20.rs_line_77_col_47.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.643291333,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.641455333,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::burn",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 74,
+                "column": 5
+              },
+              "end": {
+                "line": 84,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 77,
+              "column": 62
+            },
+            "end": {
+              "line": 77,
+              "column": 63
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_77_col_62_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_77_col_62_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.598565417,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.65151475,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::_transfer",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 5
+              },
+              "end": {
+                "line": 87,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 70,
+              "column": 31
+            },
+            "end": {
+              "line": 70,
+              "column": 32
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_70_col_31_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_70_col_31_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.646101875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.690770333,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::collat_ratio",
+            "return_type": "-> Result<U256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 5
+              },
+              "end": {
+                "line": 168,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 158,
+              "column": 9
+            },
+            "end": {
+              "line": 167,
+              "column": 27
+            }
+          },
+          "replacement": "Ok(Default::default())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_158_col_9.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_158_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.646238291,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.664602584,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::mint",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 89,
+                "column": 5
+              },
+              "end": {
+                "line": 107,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 97,
+              "column": 55
+            },
+            "end": {
+              "line": 97,
+              "column": 56
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_97_col_55.log",
+      "diff_path": "diff/src__token__erc20.rs_line_97_col_55.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.701411875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.647337166,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::approve",
+            "return_type": "-> bool",
+            "span": {
+              "start": {
+                "line": 203,
+                "column": 5
+              },
+              "end": {
+                "line": 212,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 205,
+              "column": 9
+            },
+            "end": {
+              "line": 211,
+              "column": 13
+            }
+          },
+          "replacement": "true",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_205_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_205_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.079602292,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.640742084,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::name",
+            "return_type": "-> String",
+            "span": {
+              "start": {
+                "line": 141,
+                "column": 5
+              },
+              "end": {
+                "line": 144,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 143,
+              "column": 9
+            },
+            "end": {
+              "line": 143,
+              "column": 23
+            }
+          },
+          "replacement": "String::new()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_143_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_143_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.698250458,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.647915417,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::transfer_from",
+            "return_type": "-> Result<bool, Erc20Error>",
+            "span": {
+              "start": {
+                "line": 172,
+                "column": 5
+              },
+              "end": {
+                "line": 201,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 195,
+              "column": 37
+            },
+            "end": {
+              "line": 195,
+              "column": 38
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_195_col_37_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_195_col_37_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.651549291,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.641465542,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::collat_ratio",
+            "return_type": "-> Result<U256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 5
+              },
+              "end": {
+                "line": 168,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 166,
+              "column": 46
+            },
+            "end": {
+              "line": 166,
+              "column": 47
+            }
+          },
+          "replacement": "%",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_166_col_46.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_166_col_46.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.692790041,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.708220917,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::transfer",
+            "return_type": "-> Result<bool, Erc20Error>",
+            "span": {
+              "start": {
+                "line": 166,
+                "column": 5
+              },
+              "end": {
+                "line": 170,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 168,
+              "column": 9
+            },
+            "end": {
+              "line": 169,
+              "column": 17
+            }
+          },
+          "replacement": "Ok(true)",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_168_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_168_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.130906625,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.704341333,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::collat_ratio",
+            "return_type": "-> Result<U256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 5
+              },
+              "end": {
+                "line": 168,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 167,
+              "column": 18
+            },
+            "end": {
+              "line": 167,
+              "column": 19
+            }
+          },
+          "replacement": "%",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_167_col_18.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_167_col_18.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.701390916,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.693828125,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::symbol",
+            "return_type": "-> String",
+            "span": {
+              "start": {
+                "line": 146,
+                "column": 5
+              },
+              "end": {
+                "line": 149,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 148,
+              "column": 9
+            },
+            "end": {
+              "line": 148,
+              "column": 25
+            }
+          },
+          "replacement": "String::new()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_148_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_148_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.6977975,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.705272625,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::burn",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 109,
+                "column": 5
+              },
+              "end": {
+                "line": 134,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 121,
+              "column": 33
+            },
+            "end": {
+              "line": 121,
+              "column": 34
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_121_col_33_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_121_col_33_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.699156625,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.658397958,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::burn",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 109,
+                "column": 5
+              },
+              "end": {
+                "line": 134,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 114,
+              "column": 24
+            },
+            "end": {
+              "line": 114,
+              "column": 25
+            }
+          },
+          "replacement": ">",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_114_col_24.log",
+      "diff_path": "diff/src__token__erc20.rs_line_114_col_24.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.59170025,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.654768042,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::transfer_from",
+            "return_type": "-> Result<bool, Erc20Error>",
+            "span": {
+              "start": {
+                "line": 172,
+                "column": 5
+              },
+              "end": {
+                "line": 201,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 181,
+              "column": 9
+            },
+            "end": {
+              "line": 200,
+              "column": 17
+            }
+          },
+          "replacement": "Ok(true)",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_181_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_181_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.032552875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.652812667,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::withdraw",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 114,
+                "column": 5
+              },
+              "end": {
+                "line": 130,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 117,
+              "column": 62
+            },
+            "end": {
+              "line": 117,
+              "column": 63
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_117_col_62.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_117_col_62.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.647150625,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.657175083,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::burn",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 74,
+                "column": 5
+              },
+              "end": {
+                "line": 84,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 75,
+              "column": 9
+            },
+            "end": {
+              "line": 82,
+              "column": 10
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_75_col_9.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_75_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.754194167,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.652982959,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::mint",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 89,
+                "column": 5
+              },
+              "end": {
+                "line": 107,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 97,
+              "column": 55
+            },
+            "end": {
+              "line": 97,
+              "column": 56
+            }
+          },
+          "replacement": "-",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_97_col_55_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_97_col_55_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.652256125,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.655245208,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::_transfer",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 5
+              },
+              "end": {
+                "line": 87,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 81,
+              "column": 47
+            },
+            "end": {
+              "line": 81,
+              "column": 48
+            }
+          },
+          "replacement": "-",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_81_col_47.log",
+      "diff_path": "diff/src__token__erc20.rs_line_81_col_47.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.59165025,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.648699958,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::transfer_from",
+            "return_type": "-> Result<bool, Erc20Error>",
+            "span": {
+              "start": {
+                "line": 172,
+                "column": 5
+              },
+              "end": {
+                "line": 201,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 185,
+              "column": 26
+            },
+            "end": {
+              "line": 185,
+              "column": 27
+            }
+          },
+          "replacement": ">",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_185_col_26.log",
+      "diff_path": "diff/src__token__erc20.rs_line_185_col_26.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.6057225,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.649214375,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/sh_usd.rs",
+          "function": {
+            "function_name": "ShUSD::mint",
+            "return_type": "-> Result<(), ShUSDErrors>",
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 5
+              },
+              "end": {
+                "line": 50,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 35
+            },
+            "end": {
+              "line": 44,
+              "column": 37
+            }
+          },
+          "replacement": "!=",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__sh_usd.rs_line_44_col_35.log",
+      "diff_path": "diff/src__contracts__sh_usd.rs_line_44_col_35.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.593012042,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.602941,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::symbol",
+            "return_type": "-> String",
+            "span": {
+              "start": {
+                "line": 146,
+                "column": 5
+              },
+              "end": {
+                "line": 149,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 148,
+              "column": 9
+            },
+            "end": {
+              "line": 148,
+              "column": 25
+            }
+          },
+          "replacement": "\"xyzzy\".into()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_148_col_9_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_148_col_9_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.634957583,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.705343708,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::approve",
+            "return_type": "-> bool",
+            "span": {
+              "start": {
+                "line": 203,
+                "column": 5
+              },
+              "end": {
+                "line": 212,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 205,
+              "column": 9
+            },
+            "end": {
+              "line": 211,
+              "column": 13
+            }
+          },
+          "replacement": "false",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_205_col_9_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_205_col_9_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.075219417,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.643800875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::collat_ratio",
+            "return_type": "-> Result<U256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 5
+              },
+              "end": {
+                "line": 168,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 166,
+              "column": 31
+            },
+            "end": {
+              "line": 166,
+              "column": 32
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_166_col_31_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_166_col_31_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.714354125,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.656052417,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::_transfer",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 5
+              },
+              "end": {
+                "line": 87,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 77,
+              "column": 47
+            },
+            "end": {
+              "line": 77,
+              "column": 48
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_77_col_47_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_77_col_47_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.686690542,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.647176292,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::withdraw",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 114,
+                "column": 5
+              },
+              "end": {
+                "line": 130,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 117,
+              "column": 62
+            },
+            "end": {
+              "line": 117,
+              "column": 63
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_117_col_62_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_117_col_62_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.656659916,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.643600916,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::withdraw",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 114,
+                "column": 5
+              },
+              "end": {
+                "line": 130,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 120,
+              "column": 27
+            },
+            "end": {
+              "line": 120,
+              "column": 28
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_120_col_27_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_120_col_27_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.651896541,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.657284667,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::decimals",
+            "return_type": "-> u8",
+            "span": {
+              "start": {
+                "line": 151,
+                "column": 5
+              },
+              "end": {
+                "line": 154,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 153,
+              "column": 9
+            },
+            "end": {
+              "line": 153,
+              "column": 20
+            }
+          },
+          "replacement": "1",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_153_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_153_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.704090125,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.697717209,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::init",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 5
+              },
+              "end": {
+                "line": 56,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 49,
+              "column": 9
+            },
+            "end": {
+              "line": 55,
+              "column": 39
+            }
+          },
+          "replacement": "()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_49_col_9.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_49_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.808221708,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.699376917,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::decimals",
+            "return_type": "-> u8",
+            "span": {
+              "start": {
+                "line": 151,
+                "column": 5
+              },
+              "end": {
+                "line": 154,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 153,
+              "column": 9
+            },
+            "end": {
+              "line": 153,
+              "column": 20
+            }
+          },
+          "replacement": "0",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_153_col_9_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_153_col_9_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.704246,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.658155,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::withdraw",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 114,
+                "column": 5
+              },
+              "end": {
+                "line": 130,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 115,
+              "column": 9
+            },
+            "end": {
+              "line": 129,
+              "column": 10
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_115_col_9.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_115_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.706252833,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.648115083,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::burn",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 109,
+                "column": 5
+              },
+              "end": {
+                "line": 134,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 124,
+              "column": 55
+            },
+            "end": {
+              "line": 124,
+              "column": 56
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_124_col_55.log",
+      "diff_path": "diff/src__token__erc20.rs_line_124_col_55.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.690303875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.70474375,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/test/test_weth.rs",
+          "function": {
+            "function_name": "ShUSD::mint",
+            "return_type": "-> Result<(), ShUSDErrors>",
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 5
+              },
+              "end": {
+                "line": 50,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 9
+            },
+            "end": {
+              "line": 49,
+              "column": 10
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__test__test_weth.rs_line_44_col_9.log",
+      "diff_path": "diff/src__test__test_weth.rs_line_44_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.698229041,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.690110875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::collat_ratio",
+            "return_type": "-> Result<U256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 5
+              },
+              "end": {
+                "line": 168,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 165,
+              "column": 72
+            },
+            "end": {
+              "line": 165,
+              "column": 73
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_165_col_72_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_165_col_72_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.656988208,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.652626583,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/sh_usd.rs",
+          "function": {
+            "function_name": "ShUSD::mint",
+            "return_type": "-> Result<(), ShUSDErrors>",
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 5
+              },
+              "end": {
+                "line": 50,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 9
+            },
+            "end": {
+              "line": 49,
+              "column": 10
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__sh_usd.rs_line_44_col_9.log",
+      "diff_path": "diff/src__contracts__sh_usd.rs_line_44_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.755645292,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.652982792,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/test/test_oracle.rs",
+          "function": {
+            "function_name": "TestOracle::latest_answer",
+            "return_type": "-> Result<I256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 14,
+                "column": 5
+              },
+              "end": {
+                "line": 14,
+                "column": 75
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 64
+            },
+            "end": {
+              "line": 14,
+              "column": 73
+            }
+          },
+          "replacement": "Ok(Default::default())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__test__test_oracle.rs_line_14_col_64.log",
+      "diff_path": "diff/src__test__test_oracle.rs_line_14_col_64.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.6425255,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.64707425,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::mint",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 89,
+                "column": 5
+              },
+              "end": {
+                "line": 107,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 93,
+              "column": 41
+            },
+            "end": {
+              "line": 93,
+              "column": 42
+            }
+          },
+          "replacement": "-",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_93_col_41.log",
+      "diff_path": "diff/src__token__erc20.rs_line_93_col_41.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.638059375,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.648951791,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/sh_usd.rs",
+          "function": {
+            "function_name": "ShUSD::burn",
+            "return_type": "-> Result<(), ShUSDErrors>",
+            "span": {
+              "start": {
+                "line": 52,
+                "column": 5
+              },
+              "end": {
+                "line": 59,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 53,
+              "column": 9
+            },
+            "end": {
+              "line": 58,
+              "column": 10
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__sh_usd.rs_line_53_col_9.log",
+      "diff_path": "diff/src__contracts__sh_usd.rs_line_53_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.640372833,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.653050083,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::allowance",
+            "return_type": "-> U256",
+            "span": {
+              "start": {
+                "line": 214,
+                "column": 5
+              },
+              "end": {
+                "line": 217,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 216,
+              "column": 9
+            },
+            "end": {
+              "line": 216,
+              "column": 51
+            }
+          },
+          "replacement": "Default::default()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_216_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_216_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.646112875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.641537458,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::burn",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 109,
+                "column": 5
+              },
+              "end": {
+                "line": 134,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 112,
+              "column": 9
+            },
+            "end": {
+              "line": 133,
+              "column": 15
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_112_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_112_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.626591458,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.647314791,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::_transfer",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 5
+              },
+              "end": {
+                "line": 87,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 68,
+              "column": 9
+            },
+            "end": {
+              "line": 86,
+              "column": 15
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_68_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_68_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.567289084,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.651443916,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::collat_ratio",
+            "return_type": "-> Result<U256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 5
+              },
+              "end": {
+                "line": 168,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 167,
+              "column": 18
+            },
+            "end": {
+              "line": 167,
+              "column": 19
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_167_col_18_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_167_col_18_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.6158349589999998,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.703757334,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::deposit",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 58,
+                "column": 5
+              },
+              "end": {
+                "line": 72,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 71,
+              "column": 62
+            },
+            "end": {
+              "line": 71,
+              "column": 63
+            }
+          },
+          "replacement": "-",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_71_col_62.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_71_col_62.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.705775083,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.651230583,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/test/test_weth.rs",
+          "function": {
+            "function_name": "ShUSD::init",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 5
+              },
+              "end": {
+                "line": 41,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 9
+            },
+            "end": {
+              "line": 40,
+              "column": 43
+            }
+          },
+          "replacement": "()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__test__test_weth.rs_line_40_col_9.log",
+      "diff_path": "diff/src__test__test_weth.rs_line_40_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.655839917,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.660863042,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::mint",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 86,
+                "column": 5
+              },
+              "end": {
+                "line": 112,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 87,
+              "column": 9
+            },
+            "end": {
+              "line": 111,
+              "column": 10
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_87_col_9.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_87_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.801910625,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.708583584,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::_transfer",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 64,
+                "column": 5
+              },
+              "end": {
+                "line": 87,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 81,
+              "column": 47
+            },
+            "end": {
+              "line": 81,
+              "column": 48
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_81_col_47_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_81_col_47_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.701457375,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.710806,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::liquidate",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 132,
+                "column": 5
+              },
+              "end": {
+                "line": 155,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 135,
+              "column": 27
+            },
+            "end": {
+              "line": 135,
+              "column": 28
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_135_col_27.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_135_col_27.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.639691459,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.70549925,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::balance_of",
+            "return_type": "-> U256",
+            "span": {
+              "start": {
+                "line": 161,
+                "column": 5
+              },
+              "end": {
+                "line": 164,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 163,
+              "column": 9
+            },
+            "end": {
+              "line": 163,
+              "column": 33
+            }
+          },
+          "replacement": "Default::default()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_163_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_163_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.752656875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.700486334,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/sh_usd.rs",
+          "function": {
+            "function_name": "ShUSD::init",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 39,
+                "column": 5
+              },
+              "end": {
+                "line": 41,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 40,
+              "column": 9
+            },
+            "end": {
+              "line": 40,
+              "column": 43
+            }
+          },
+          "replacement": "()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__sh_usd.rs_line_40_col_9.log",
+      "diff_path": "diff/src__contracts__sh_usd.rs_line_40_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.694155083,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.693129875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::name",
+            "return_type": "-> String",
+            "span": {
+              "start": {
+                "line": 141,
+                "column": 5
+              },
+              "end": {
+                "line": 144,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 143,
+              "column": 9
+            },
+            "end": {
+              "line": 143,
+              "column": 23
+            }
+          },
+          "replacement": "\"xyzzy\".into()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_143_col_9_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_143_col_9_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.702662333,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.653282542,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::mint",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 89,
+                "column": 5
+              },
+              "end": {
+                "line": 107,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 92,
+              "column": 9
+            },
+            "end": {
+              "line": 106,
+              "column": 15
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_92_col_9.log",
+      "diff_path": "diff/src__token__erc20.rs_line_92_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.634902083,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.652492583,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::mint",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 89,
+                "column": 5
+              },
+              "end": {
+                "line": 107,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 93,
+              "column": 41
+            },
+            "end": {
+              "line": 93,
+              "column": 42
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_93_col_41_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_93_col_41_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.6708451659999999,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.653349958,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/sh_usd.rs",
+          "function": {
+            "function_name": "ShUSD::burn",
+            "return_type": "-> Result<(), ShUSDErrors>",
+            "span": {
+              "start": {
+                "line": 52,
+                "column": 5
+              },
+              "end": {
+                "line": 59,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 53,
+              "column": 35
+            },
+            "end": {
+              "line": 53,
+              "column": 37
+            }
+          },
+          "replacement": "!=",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__sh_usd.rs_line_53_col_35.log",
+      "diff_path": "diff/src__contracts__sh_usd.rs_line_53_col_35.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.647408959,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.6440765,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::liquidate",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 132,
+                "column": 5
+              },
+              "end": {
+                "line": 155,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 135,
+              "column": 27
+            },
+            "end": {
+              "line": 135,
+              "column": 28
+            }
+          },
+          "replacement": "<",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_135_col_27_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_135_col_27_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.751883417,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.693253125,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::mint",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 86,
+                "column": 5
+              },
+              "end": {
+                "line": 112,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 89,
+              "column": 62
+            },
+            "end": {
+              "line": 89,
+              "column": 63
+            }
+          },
+          "replacement": "-",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_89_col_62.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_89_col_62.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.755851,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.702889208,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::transfer_from",
+            "return_type": "-> Result<bool, Erc20Error>",
+            "span": {
+              "start": {
+                "line": 172,
+                "column": 5
+              },
+              "end": {
+                "line": 201,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 181,
+              "column": 9
+            },
+            "end": {
+              "line": 200,
+              "column": 17
+            }
+          },
+          "replacement": "Ok(false)",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_181_col_9_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_181_col_9_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.126990083,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.6499485,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::burn",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 109,
+                "column": 5
+              },
+              "end": {
+                "line": 134,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 124,
+              "column": 55
+            },
+            "end": {
+              "line": 124,
+              "column": 56
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_124_col_55_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_124_col_55_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.701015958,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.70575775,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/test/test_weth.rs",
+          "function": {
+            "function_name": "ShUSD::mint",
+            "return_type": "-> Result<(), ShUSDErrors>",
+            "span": {
+              "start": {
+                "line": 43,
+                "column": 5
+              },
+              "end": {
+                "line": 50,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 35
+            },
+            "end": {
+              "line": 44,
+              "column": 37
+            }
+          },
+          "replacement": "!=",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__test__test_weth.rs_line_44_col_35.log",
+      "diff_path": "diff/src__test__test_weth.rs_line_44_col_35.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.643017458,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.647325542,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::deposit",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 58,
+                "column": 5
+              },
+              "end": {
+                "line": 72,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 71,
+              "column": 62
+            },
+            "end": {
+              "line": 71,
+              "column": 63
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_71_col_62_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_71_col_62_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.649327042,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.649747083,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::mint",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 86,
+                "column": 5
+              },
+              "end": {
+                "line": 112,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 89,
+              "column": 62
+            },
+            "end": {
+              "line": 89,
+              "column": 63
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_89_col_62_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_89_col_62_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.639541542,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.657663791,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::transfer",
+            "return_type": "-> Result<bool, Erc20Error>",
+            "span": {
+              "start": {
+                "line": 166,
+                "column": 5
+              },
+              "end": {
+                "line": 170,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 168,
+              "column": 9
+            },
+            "end": {
+              "line": 169,
+              "column": 17
+            }
+          },
+          "replacement": "Ok(false)",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_168_col_9_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_168_col_9_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.037184167,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.647113542,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::burn",
+            "return_type": "-> Result<(), Erc20Error>",
+            "span": {
+              "start": {
+                "line": 109,
+                "column": 5
+              },
+              "end": {
+                "line": 134,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 114,
+              "column": 24
+            },
+            "end": {
+              "line": 114,
+              "column": 25
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_114_col_24_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_114_col_24_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.649106709,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.653004625,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/token/erc20.rs",
+          "function": {
+            "function_name": "Erc20<T>::transfer_from",
+            "return_type": "-> Result<bool, Erc20Error>",
+            "span": {
+              "start": {
+                "line": 172,
+                "column": 5
+              },
+              "end": {
+                "line": 201,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 185,
+              "column": 26
+            },
+            "end": {
+              "line": 185,
+              "column": 27
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__token__erc20.rs_line_185_col_26_001.log",
+      "diff_path": "diff/src__token__erc20.rs_line_185_col_26_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.595405834,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.60607875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/test/test_weth.rs",
+          "function": {
+            "function_name": "ShUSD::burn",
+            "return_type": "-> Result<(), ShUSDErrors>",
+            "span": {
+              "start": {
+                "line": 52,
+                "column": 5
+              },
+              "end": {
+                "line": 59,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 53,
+              "column": 9
+            },
+            "end": {
+              "line": 58,
+              "column": 10
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__test__test_weth.rs_line_53_col_9.log",
+      "diff_path": "diff/src__test__test_weth.rs_line_53_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.593487,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.600239125,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::liquidate",
+            "return_type": "-> Result<(), Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 132,
+                "column": 5
+              },
+              "end": {
+                "line": 155,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 133,
+              "column": 9
+            },
+            "end": {
+              "line": 154,
+              "column": 10
+            }
+          },
+          "replacement": "Ok(())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_133_col_9.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_133_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.716775333,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.6616415,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::collat_ratio",
+            "return_type": "-> Result<U256, Vec<u8>>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 5
+              },
+              "end": {
+                "line": 168,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 166,
+              "column": 46
+            },
+            "end": {
+              "line": 166,
+              "column": 47
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_166_col_46_001.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_166_col_46_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.652430875,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.652062416,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/test/test_weth.rs",
+          "function": {
+            "function_name": "ShUSD::burn",
+            "return_type": "-> Result<(), ShUSDErrors>",
+            "span": {
+              "start": {
+                "line": 52,
+                "column": 5
+              },
+              "end": {
+                "line": 59,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 53,
+              "column": 35
+            },
+            "end": {
+              "line": 53,
+              "column": 37
+            }
+          },
+          "replacement": "!=",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__test__test_weth.rs_line_53_col_35.log",
+      "diff_path": "diff/src__test__test_weth.rs_line_53_col_35.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.661953334,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.655486625,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "package": "microstable-stylus",
+          "file": "src/contracts/manager.rs",
+          "function": {
+            "function_name": "Manager::deposit",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 58,
+                "column": 5
+              },
+              "end": {
+                "line": 72,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 59,
+              "column": 9
+            },
+            "end": {
+              "line": 71,
+              "column": 72
+            }
+          },
+          "replacement": "()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "MissedMutant",
+      "log_path": "log/src__contracts__manager.rs_line_59_col_9.log",
+      "diff_path": "diff/src__contracts__manager.rs_line_59_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.759403209,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.655358792,
+          "process_status": "Success",
+          "argv": [
+            "/Users/jacksmith/.rustup/toolchains/1.83.0-aarch64-apple-darwin/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=microstable-stylus@0.1.0"
+          ]
+        }
+      ]
+    }
+  ],
+  "total_mutants": 76,
+  "missed": 76,
+  "caught": 0,
+  "timeout": 0,
+  "unviable": 0,
+  "success": 0
+}

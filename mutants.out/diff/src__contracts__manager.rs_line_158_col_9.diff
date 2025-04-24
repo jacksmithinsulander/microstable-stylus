@@ -1,0 +1,24 @@
+--- src/contracts/manager.rs
++++ replace Manager::collat_ratio -> Result<U256, Vec<u8>> with Ok(Default::default())
+@@ -150,20 +150,11 @@
+                     }
+                 }
+             },
+             Err(e) => return Err(e) 
+         }
+     }
+ 
+     pub fn collat_ratio(&self, user: Address) -> Result<U256, Vec<u8>> {
+-        let minted = self.address_2minted.get(user);
+-        if minted.is_zero() {
+-            return Ok(U256::MAX);
+-        }
+-        let deposited = self.address_2deposit.get(user);
+-        let price_raw = unsafe { &RawCall::new().call(self.oracle.get(), &latestAnswerCall {}.abi_encode()).unwrap() };
+-        let price = AggregatorV3Interface::latestAnswerCall::abi_decode_returns(&price_raw, true).unwrap()._0;
+-        let price_scaled = U256::from_str(&price.to_string()).unwrap() * U256::from(1e10 as u64);
+-        let value = deposited * price_scaled / U256::from(1e18 as u64);
+-        Ok(value / minted)
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }

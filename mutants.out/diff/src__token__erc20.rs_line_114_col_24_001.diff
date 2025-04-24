@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace < with == in Erc20<T>::burn
+@@ -106,17 +106,17 @@
+         Ok(())
+     }
+ 
+     /// Burns `value` tokens from `address`
+     pub fn burn(&mut self, address: Address, value: U256) -> Result<(), Erc20Error> {
+         // Decreasing balance
+         let mut balance = self.balances.setter(address);
+         let old_balance = balance.get();
+-        if old_balance < value {
++        if old_balance == /* ~ changed by cargo-mutants ~ */ value {
+             return Err(Erc20Error::InsufficientBalance(InsufficientBalance {
+                 from: address,
+                 have: old_balance,
+                 want: value,
+             }));
+         }
+         balance.set(old_balance - value);
+ 

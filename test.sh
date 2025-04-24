@@ -180,12 +180,25 @@ BEFORE_COLLATERAL_RATIO=$(cast call $MANAGER_ADDRESS "collatRatio(address)(uint2
 echo "🧐 Collateral ratio is is: $BEFORE_COLLATERAL_RATIO"
 
 echo "🏃 Checking sh usd balance of my wallet..."
-MANAGER_SH_USD_BALANCE_BEFORE=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL)
-if [ "$MANAGER_SH_USD_BALANCE_BEFORE" -ne "0" ]; then
-    echo "❌ Somehow manager already had a weth balance?? $MANAGER_SH_USD_BALANCE_BEFORE"
+MY_SH_USD_BALANCE_BEFORE=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL)
+if [ "$MY_SH_USD_BALANCE_BEFORE" -ne "0" ]; then
+    echo "❌ Somehow manager already had a weth balance?? $MY_SH_USD_BALANCE_BEFORE"
     exit 1
 fi
 
 echo "🫣 Finally minting, scary, LETS GO!!"
+cast send $MANAGER_ADDRESS "mint(uint256)" 100 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
 
-cast send $MANAGER_ADDRESS "mint(uint256)" 10000000000000000000 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+echo "✅ Transaction went through, lets do some check"
+COLLATERAL_RATIO=$(cast call $MANAGER_ADDRESS "collatRatio(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL --private-key $PRIVATE_KEY)
+
+echo "🤓 New collateral ratio is: $COLLATERAL_RATIO, old was $BEFORE_COLLATERAL_RATIO"
+
+MY_SH_USD_BALANCE=$(cast call $SH_USD_ADDRESS "balanceOf(address)(uint256)" $PUB_KEY --rpc-url $RPC_URL)
+
+echo "🥹 My balance is: $MY_SH_USD_BALANCE"
+if [ $MY_SH_USD_BALANCE != 100 ]; then
+    echo "❌ Wrong amount gotten, got $MY_SH_USD_BALANCE"
+    exit 1
+fi
+echo "✅ Got the correct amount"

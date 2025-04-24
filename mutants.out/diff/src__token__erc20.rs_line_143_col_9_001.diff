@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace Erc20<T>::name -> String with "xyzzy".into()
+@@ -135,17 +135,17 @@
+ }
+ 
+ // These methods are public to other contracts
+ // Note: modifying storage will become much prettier soon
+ #[public]
+ impl<T: Erc20Params> Erc20<T> {
+     /// Immutable token name
+     pub fn name() -> String {
+-        T::NAME.into()
++        "xyzzy".into() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Immutable token symbol
+     pub fn symbol() -> String {
+         T::SYMBOL.into()
+     }
+ 
+     /// Immutable token decimals

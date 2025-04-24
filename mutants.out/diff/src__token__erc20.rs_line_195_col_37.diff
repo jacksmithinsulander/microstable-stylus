@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace - with / in Erc20<T>::transfer_from
+@@ -187,17 +187,17 @@
+                 owner: from,
+                 spender: self.vm().msg_sender(),
+                 have: old_allowance,
+                 want: value,
+             }));
+         }
+ 
+         // Decreases allowance
+-        allowance.set(old_allowance - value);
++        allowance.set(old_allowance / /* ~ changed by cargo-mutants ~ */ value);
+ 
+         // Calls the internal transfer function
+         self._transfer(from, to, value)?;
+ 
+         Ok(true)
+     }
+ 
+     /// Approves the spenditure of `value` tokens of msg::sender() to `spender`

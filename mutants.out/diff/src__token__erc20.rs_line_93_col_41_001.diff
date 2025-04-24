@@ -1,0 +1,21 @@
+--- src/token/erc20.rs
++++ replace + with * in Erc20<T>::mint
+@@ -85,17 +85,17 @@
+         log(self.vm(), Transfer { from, to, value });
+         Ok(())
+     }
+ 
+     /// Mints `value` tokens to `address`
+     pub fn mint(&mut self, address: Address, value: U256) -> Result<(), Erc20Error> {
+         // Increasing balance
+         let mut balance = self.balances.setter(address);
+-        let new_balance = balance.get() + value;
++        let new_balance = balance.get() * /* ~ changed by cargo-mutants ~ */ value;
+         balance.set(new_balance);
+ 
+         // Increasing total supply
+         self.total_supply.set(self.total_supply.get() + value);
+ 
+         // Emitting the transfer event
+         log(self.vm(), Transfer {
+             from: Address::ZERO,
