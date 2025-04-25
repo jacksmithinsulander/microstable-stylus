@@ -25,42 +25,42 @@ sol! {
 pub fn latest_answer_call(oracle: Address) -> Result<I256, Vec<u8>> {
     match I256::try_from_be_slice(unsafe { &RawCall::new().call(oracle, &latestAnswerCall {}.abi_encode()).unwrap()}) {
         Some(res) => Ok(res),
-        None => return Err(CallErrors::CouldNotCall(CouldNotCall {}).into())
+        None => Err(CallErrors::CouldNotCall(CouldNotCall {}).into())
     }
 }
 
-pub fn transfer_from_call(token: Address, sender: Address, recipient: Address, amount: U256) -> Result<(), Vec<u8>> {
+pub fn transfer_from_call(token: Address, from: Address, to: Address, value: U256) -> Result<(), Vec<u8>> {
     unpack_bool_safe(unsafe { &RawCall::new().call(token, &transferFromCall {
-        from: sender,
-        to: recipient,
-        value: amount,
+        from,
+        to,
+        value,
     }.abi_encode()).unwrap()})
 }
 
-pub fn transfer_call(token: Address, recipient: Address, amount: U256) -> Result<(), Vec<u8>> {
+pub fn transfer_call(token: Address, to: Address, value: U256) -> Result<(), Vec<u8>> {
     unpack_bool_safe(unsafe { &RawCall::new().call(token, &transferCall {
-        to: recipient,
-        value: amount,
+        to,
+        value,
     }.abi_encode()).unwrap()})
 }
 
-pub fn mint_call(token: Address, recipient: Address, amount: U256) -> Result<(), Vec<u8>> {
+pub fn mint_call(token: Address, to: Address, amount: U256) -> Result<(), Vec<u8>> {
     unpack_bool_safe(unsafe { &RawCall::new().call(token, &mintCall {
-        to: recipient,
-        amount: amount,
+        to,
+        amount,
     }.abi_encode()).unwrap()})
 }
 
 pub fn burn_call(token: Address, from: Address, amount: U256) -> Result<(), Vec<u8>> {
     unpack_bool_safe(unsafe { &RawCall::new().call(token, &burnCall {
-        from: from,
-        amount: amount,
+        from,
+        amount,
     }.abi_encode()).unwrap()})
 }
 
 pub fn unpack_bool_safe(data: &[u8]) -> Result<(), Vec<u8>> {
     match data.get(31) {
         None | Some(1) => Ok(()),
-        _ => return Err(CallErrors::CouldNotUnpackBool(CouldNotUnpackBool {}).into()),
+        _ => Err(CallErrors::CouldNotUnpackBool(CouldNotUnpackBool {}).into()),
     }
 }

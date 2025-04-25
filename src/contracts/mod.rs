@@ -1,6 +1,6 @@
-#[cfg(any(feature = "sh-usd"))]
+#[cfg(feature = "sh-usd")]
 pub mod sh_usd;
-#[cfg(any(feature = "manager"))]
+#[cfg(feature = "manager")]
 pub mod manager;
 
 pub mod calls;

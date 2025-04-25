@@ -1,5 +1,5 @@
-#[cfg(any(feature = "test-oracle"))]
+#[cfg(feature = "test-oracle")]
 pub mod test_oracle;
 
-#[cfg(any(feature = "test-weth"))]
+#[cfg(feature = "test-weth")]
 pub mod test_weth;
