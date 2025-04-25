@@ -60,7 +60,8 @@ impl Manager {
     pub fn deposit(&mut self, amount: U256) -> Result<(), Vec<u8>> {
         let sender = self.vm().msg_sender();
         let this = self.vm().contract_address();
-        let _ = calls::transfer_from_call(self.weth.get(), sender, this, amount);
+        //let _ = 
+        calls::transfer_from_call(self.weth.get(), sender, this, amount)?;
         let previus_balance = self.address_2deposit.get(sender);
         self.address_2deposit.insert(sender, previus_balance.checked_add(amount)
             .ok_or(ManagerErrors::CouldNotAdd(CouldNotAdd {}))?);
