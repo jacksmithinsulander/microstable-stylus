@@ -19,6 +19,15 @@ pub enum ManagerErrors {
     Undercollateralized(Undercollateralized),
 }
 
+#[macro_export]
+macro_rules! assert_or {
+    ($cond:expr, $err:expr) => {
+        if !($cond) {
+            Err($err)?;
+        }
+    };
+}
+
 #[cfg_attr(feature = "manager", stylus_sdk::prelude::entrypoint)]
 #[storage]
 pub struct Manager {
@@ -62,11 +71,7 @@ impl Manager {
         let previous_balance = self.address_2minted.get(sender);
         self.address_2minted.insert(sender, previous_balance + amount);
         let ratio = self.collat_ratio(sender)?;
-
-        if ratio < U256::from(MIN_COLLAT_RATIO) {
-            return Err(ManagerErrors::Undercollateralized(Undercollateralized {}).into());
-        }
-    
+        assert_or!(ratio > U256::from(MIN_COLLAT_RATIO), ManagerErrors::Undercollateralized(Undercollateralized {}));
         let _ = calls::mint_call(self.sh_usd.get(), sender, amount)?;
         Ok(())
     }
@@ -75,13 +80,8 @@ impl Manager {
         let sender = self.vm().msg_sender();
         let previous_deposit = self.address_2deposit.get(sender);
         self.address_2deposit.insert(sender, previous_deposit - amount);
-
         let ratio = self.collat_ratio(sender)?;
-
-        if ratio < U256::from(MIN_COLLAT_RATIO) {
-            return Err(ManagerErrors::Undercollateralized(Undercollateralized {}).into());
-        }
-
+        assert_or!(ratio > U256::from(MIN_COLLAT_RATIO), ManagerErrors::Undercollateralized(Undercollateralized {}));
         let _ = calls::transfer_call(self.weth.get(), sender, amount)?;
         Ok(())
     }
@@ -89,21 +89,18 @@ impl Manager {
     pub fn liquidate(&mut self, user: Address) -> Result<(), Vec<u8>> {
         match self.collat_ratio(user) {
             Ok(result) => {
-                if result >= U256::from(MIN_COLLAT_RATIO) {
-                    return Err(ManagerErrors::Undercollateralized(Undercollateralized {}).into());
-                } else {
-                    let sender = self.vm().msg_sender();
-                    let amount_minted = self.address_2minted.get(user);
-                    match calls::burn_call(self.sh_usd.get(), user, amount_minted) {
-                        Ok(_) => {
-                            let amount_deposited = self.address_2deposit.get(user);
-                            let _ = calls::transfer_call(self.weth.get(), sender, amount_deposited)?;
-                            self.address_2deposit.insert(user, U256::ZERO);
-                            self.address_2minted.insert(user, U256::ZERO);
-                            Ok(())
-                        },
-                        Err(e) => return Err(e.into())
-                    }
+                assert_or!(result <= U256::from(MIN_COLLAT_RATIO), ManagerErrors::Undercollateralized(Undercollateralized {}));
+                let sender = self.vm().msg_sender();
+                let amount_minted = self.address_2minted.get(user);
+                match calls::burn_call(self.sh_usd.get(), user, amount_minted) {
+                    Ok(_) => {
+                        let amount_deposited = self.address_2deposit.get(user);
+                        let _ = calls::transfer_call(self.weth.get(), sender, amount_deposited)?;
+                        self.address_2deposit.insert(user, U256::ZERO);
+                        self.address_2minted.insert(user, U256::ZERO);
+                        Ok(())
+                    },
+                    Err(e) => return Err(e.into())
                 }
             },
             Err(e) => return Err(e)
@@ -112,9 +109,7 @@ impl Manager {
 
     pub fn collat_ratio(&self, user: Address) -> Result<U256, Vec<u8>> {
         let minted = self.address_2minted.get(user);
-        if minted.is_zero() {
-            return Ok(U256::MAX);
-        }
+        if minted.is_zero() { return Ok(U256::MAX); }
         let deposited = self.address_2deposit.get(user);
         match calls::latest_answer_call(self.oracle.get()) {
             Ok(price) => {
