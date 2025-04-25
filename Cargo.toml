@@ -36,6 +36,10 @@ crate-type = ["rlib", "cdylib"]  # Add rlib for LSP compatibility
 edition = "2021"
 name = "libmicrostable"
 
+[profile.dev]
+codegen-units = 16
+panic = "unwind"
+
 [profile.release]
 codegen-units = 1
 strip = true

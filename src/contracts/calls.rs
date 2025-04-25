@@ -1,6 +1,18 @@
 use alloc::vec::Vec;
 use alloy_primitives::Address;
-use stylus_sdk::{alloy_primitives::{I256, U256}, call::RawCall, alloy_sol_types::{sol, SolCall}};
+use stylus_sdk::{prelude::*, alloy_primitives::{I256, U256}, call::RawCall, alloy_sol_types::{sol, SolCall}};
+
+
+sol! {
+    error CouldNotCall();
+    error CouldNotUnpackBool();
+}
+
+#[derive(SolidityError)]
+pub enum CallErrors {
+    CouldNotCall(CouldNotCall),
+    CouldNotUnpackBool(CouldNotUnpackBool)
+}
 
 sol! {
     function latestAnswer() external view returns (int);
@@ -13,7 +25,7 @@ sol! {
 pub fn latest_answer_call(oracle: Address) -> Result<I256, Vec<u8>> {
     match I256::try_from_be_slice(unsafe { &RawCall::new().call(oracle, &latestAnswerCall {}.abi_encode()).unwrap()}) {
         Some(res) => Ok(res),
-        None => Err(b"Couldnt call".to_vec())
+        None => return Err(CallErrors::CouldNotCall(CouldNotCall {}).into())
     }
 }
 
@@ -49,6 +61,6 @@ pub fn burn_call(token: Address, from: Address, amount: U256) -> Result<(), Vec<
 pub fn unpack_bool_safe(data: &[u8]) -> Result<(), Vec<u8>> {
     match data.get(31) {
         None | Some(1) => Ok(()),
-        _ => Err(b"Could not unpack bool".to_vec()),
+        _ => return Err(CallErrors::CouldNotUnpackBool(CouldNotUnpackBool {}).into()),
     }
 }
