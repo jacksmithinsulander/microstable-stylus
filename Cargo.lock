@@ -2768,7 +2768,6 @@ dependencies = [
  "eyre",
  "hex",
  "mini-alloc",
- "proptest",
  "stylus-sdk",
  "tokio",
 ]
