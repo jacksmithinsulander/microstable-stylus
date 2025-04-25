@@ -15,6 +15,9 @@ sol! {
     error AlreadyInitialized();
     error CouldNotAdd();
     error CouldNotSub();
+    error CouldNotMul();
+    error CouldNotDiv();
+    error ConversionFailure();
 }
 
 #[derive(SolidityError)]
@@ -22,7 +25,10 @@ pub enum ManagerErrors {
     Undercollateralized(Undercollateralized),
     AlreadyInitialized(AlreadyInitialized),
     CouldNotAdd(CouldNotAdd),
-    CouldNotSub(CouldNotSub)
+    CouldNotSub(CouldNotSub),
+    CouldNotMul(CouldNotMul),
+    CouldNotDiv(CouldNotDiv),
+    ConversionFailure(ConversionFailure)
 }
 
 #[macro_export]
@@ -60,7 +66,6 @@ impl Manager {
     pub fn deposit(&mut self, amount: U256) -> Result<(), Vec<u8>> {
         let sender = self.vm().msg_sender();
         let this = self.vm().contract_address();
-        //let _ = 
         calls::transfer_from_call(self.weth.get(), sender, this, amount)?;
         let previus_balance = self.address_2deposit.get(sender);
         self.address_2deposit.insert(sender, previus_balance.checked_add(amount)
@@ -117,8 +122,11 @@ impl Manager {
         if minted.is_zero() { return Ok(U256::MAX); }
         let deposited = self.address_2deposit.get(user);
         let price = calls::latest_answer_call(self.oracle.get())?;
-        let value = deposited * (U256::from_str(&price.to_string()).unwrap() * U256::from(1e10 as u64));
-        let value_scaled = value / U256::from(1e18 as u64);
-        Ok(value_scaled / minted)
+        let value = deposited.checked_mul(U256::from_str(&price.to_string()).unwrap()
+            .checked_mul(U256::from(1e10 as u64))
+            .ok_or(ManagerErrors::CouldNotMul(CouldNotMul {}))?)
+        .ok_or(ManagerErrors::CouldNotMul(CouldNotMul {}))?;
+        let value_scaled = value.checked_div(U256::from(1e18 as u64)).ok_or(ManagerErrors::CouldNotDiv(CouldNotDiv {}))?;
+        Ok(value_scaled.checked_div(minted).ok_or(ManagerErrors::CouldNotDiv(CouldNotDiv {}))?)
     }
 }

@@ -2,7 +2,6 @@ use alloc::vec::Vec;
 use alloy_primitives::Address;
 use stylus_sdk::{prelude::*, alloy_primitives::{I256, U256}, call::RawCall, alloy_sol_types::{sol, SolCall}};
 
-
 sol! {
     error CouldNotCall();
     error CouldNotUnpackBool();
@@ -23,10 +22,7 @@ sol! {
 }
 
 pub fn latest_answer_call(oracle: Address) -> Result<I256, Vec<u8>> {
-    match I256::try_from_be_slice(unsafe { &RawCall::new().call(oracle, &latestAnswerCall {}.abi_encode()).unwrap()}) {
-        Some(res) => Ok(res),
-        None => Err(CallErrors::CouldNotCall(CouldNotCall {}).into())
-    }
+    I256::try_from_be_slice(unsafe { &RawCall::new().call(oracle, &latestAnswerCall {}.abi_encode()).unwrap()}).ok_or(CallErrors::CouldNotCall(CouldNotCall {}).into())
 }
 
 pub fn transfer_from_call(token: Address, from: Address, to: Address, value: U256) -> Result<(), Vec<u8>> {
