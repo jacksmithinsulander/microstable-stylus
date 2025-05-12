@@ -21,7 +21,7 @@ eyre = "0.6.8"
 stylus-sdk = { version = "0.8.4", features = ["stylus-test"] }
 
 [features]
-#default = ["manager", "sh-usd"]
+default = ["manager", "sh-usd"]
 sh-usd = []
 manager = []
 test-oracle = []
@@ -35,10 +35,6 @@ path = "src/main.rs"
 crate-type = ["rlib", "cdylib"]  # Add rlib for LSP compatibility
 edition = "2021"
 name = "libmicrostable"
-
-[profile.dev]
-codegen-units = 16
-panic = "unwind"
 
 [profile.release]
 codegen-units = 1
